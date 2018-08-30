@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Python_TWS_API_Historical_Data_Download", "Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download.pyproj", "{BAC1729B-170B-4D7F-BA8D-6E977830DFDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAC1729B-170B-4D7F-BA8D-6E977830DFDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAC1729B-170B-4D7F-BA8D-6E977830DFDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67B589E7-BC66-4C9C-A7AD-0EBEBE41ED73}
+	EndGlobalSection
+EndGlobal
