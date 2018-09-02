@@ -64,7 +64,7 @@ def main():
     
 ###Requests to TWS (using EClient)
     #app.reqContractDetails(1001,contract)
-    app.reqHistoricalData(1002, contract, (dt.datetime.today-1).strftime("%Y%m%d %H:%M:%S"), "1 D","1 sec", "TRADES", 1, 1, False, [])
+    app.reqHistoricalData(1002, contract, (dt.datetime.today()-dt.timedelta(days=1)).strftime("%Y%m%d %H:%M:%S"), "1 D","1 secs", "TRADES", 1, 1, False, [])
 #Historical Data Request Description:
 #region
 #Requests contracts' historical data. When requesting historical data, a
