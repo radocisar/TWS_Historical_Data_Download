@@ -7,7 +7,7 @@ from Utility_Functions import Utility_Functions
 
 ###This is where the events are returned (into the EWrapper)
 class New_App (EWrapper, EClient, Utility_Functions):
-    FileOpen = False
+    FileisnowOpen = False
     uf = Utility_Functions()
     
     def __init__(self):
@@ -21,9 +21,9 @@ class New_App (EWrapper, EClient, Utility_Functions):
         
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        if FileOpen == False:
+        if FileisnowOpen == False:
             self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile")            
-            FileOpen = True
+            FileisnowOpen = True
         self.uf.saving_Ticks_to_File(bar)
         
         #Function and bars description:
@@ -64,7 +64,7 @@ def main():
     
 ###Requests to TWS (using EClient)
     #app.reqContractDetails(1001,contract)
-    app.reqHistoricalData(1002, contract, (dt.datetime.today()-dt.timedelta(days=1)).strftime("%Y%m%d %H:%M:%S"), "1 D","1 secs", "TRADES", 1, 1, False, [])
+    app.reqHistoricalData(1002, contract, (dt.datetime.today()-dt.timedelta(days=14)).strftime("%Y%m%d %H:%M:%S"), "3 D","1 hour", "TRADES", 1, 1, False, [])
 #Historical Data Request Description:
 #region
 #Requests contracts' historical data. When requesting historical data, a
