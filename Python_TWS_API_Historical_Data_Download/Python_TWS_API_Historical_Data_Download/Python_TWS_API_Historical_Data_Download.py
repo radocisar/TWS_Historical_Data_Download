@@ -3,16 +3,25 @@ from ibapi.wrapper import EWrapper
 from ibapi.common import *
 from ibapi.contract import *
 import datetime as dt
-from Utility_Functions import Utility_Functions
+#from Utility_Functions import Utility_Functions
+from Utility_Functions import Write_to_File
+
+#Raw_File = ""
 
 ###This is where the events are returned (into the EWrapper)
-class New_App (EWrapper, EClient, Utility_Functions):
-    FileisnowOpen = False
-    uf = Utility_Functions()
+class New_App (EWrapper, EClient, Write_to_File):
     
-    def __init__(self):
+    #uf = Utility_Functions()
+    #wtf = Write_to_File()
+
+    def __init__(self, Ticks_List=None):
         EClient.__init__(self,self)
-        
+        self.FileisnowOpen = False
+        if Ticks_List is None:
+            self.Ticks_List = []
+        else:
+            self.Ticks_List = Ticks_List
+
     def contractDetails(self, reqId:int, contractDetails:ContractDetails):
         print("Contract Details: ", reqId, contractDetails)
 
@@ -21,10 +30,13 @@ class New_App (EWrapper, EClient, Utility_Functions):
         
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        if FileisnowOpen == False:
-            self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile")            
-            FileisnowOpen = True
-        self.uf.saving_Ticks_to_File(bar)
+        self.Ticks_List.append(bar.date + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
+        #if self.FileisnowOpen == False:
+            #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
+            #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
+            #self.FileisnowOpen = True
+        #self.uf.saving_Ticks_to_File(Raw_File, bar)
+        #self.wtf.saving_Ticks_to_File(bar)
         
         #Function and bars description:
         #region
@@ -44,7 +56,10 @@ class New_App (EWrapper, EClient, Utility_Functions):
     
     def historicalDataEnd(self, reqId:int, start:str, end:str):
         """ Marks the ending of the historical bars reception. """
-        self.uf.close_File_to_Save_Ticks_to()
+        #self.wtf.close_File_to_Save_Ticks_to()
+        #Raw_File.close
+        #self.uf.close_File_to_Save_Ticks_to()
+        Write_to_File.saving_Ticks_to_File(self.Ticks_List)
         print("Historical data download from", start, "to", end, "done")
 
 ###This is where parameters are defined and requests are made from
@@ -64,7 +79,7 @@ def main():
     
 ###Requests to TWS (using EClient)
     #app.reqContractDetails(1001,contract)
-    app.reqHistoricalData(1002, contract, (dt.datetime.today()-dt.timedelta(days=14)).strftime("%Y%m%d %H:%M:%S"), "3 D","1 hour", "TRADES", 1, 1, False, [])
+    app.reqHistoricalData(1002, contract, (dt.datetime.today()-dt.timedelta(days=17)).strftime("%Y%m%d %H:%M:%S"), "3 D","1 hour", "TRADES", 1, 1, False, [])
 #Historical Data Request Description:
 #region
 #Requests contracts' historical data. When requesting historical data, a
