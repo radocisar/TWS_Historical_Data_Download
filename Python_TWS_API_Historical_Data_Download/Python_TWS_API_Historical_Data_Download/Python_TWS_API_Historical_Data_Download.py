@@ -30,7 +30,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date)) + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
+        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
@@ -42,7 +42,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         #region
         """reqId - the request's identifier
         date  - the bar's date and time (either as a yyyymmss hh:mm:ssformatted
-             string or as system time according to the request)
+                string or as system time according to the request)
         open  - the bar's open point
         high  - the bar's high point
         low   - the bar's low point
@@ -51,7 +51,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         count - the number of trades during the bar's timespan (only available
             for TRADES).
         WAP -   the bar's Weighted Average Price
-        hasGaps  -indicates if the data has gaps or not. """
+        hasGaps  -indicates if the data has gaps or not."""
         #endregion
     
     def historicalDataEnd(self, reqId:int, start:str, end:str):
