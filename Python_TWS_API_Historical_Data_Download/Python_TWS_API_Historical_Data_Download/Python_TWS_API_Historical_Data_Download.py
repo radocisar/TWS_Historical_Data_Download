@@ -35,8 +35,8 @@ class New_App (EWrapper, EClient, Write_to_File):
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
             #self.FileisnowOpen = True
-        #self.uf.saving_Ticks_to_File(Raw_File, bar)
-        #self.wtf.saving_Ticks_to_File(bar)
+        #self.uf.saving_Bars_to_File(Raw_File, bar)
+        #self.wtf.saving_Bars_to_File(bar)
         
         #Function and bars description:
         #region
@@ -56,22 +56,22 @@ class New_App (EWrapper, EClient, Write_to_File):
     
     def historicalDataEnd(self, reqId:int, start:str, end:str):
         """ Marks the ending of the historical bars reception. """
-        #self.wtf.close_File_to_Save_Ticks_to()
+        #self.wtf.close_File_to_Save_Bars_to()
         #Raw_File.close
-        #self.uf.close_File_to_Save_Ticks_to()
-        Write_to_File.saving_Ticks_to_File(self.Ticks_List)
-        print("Historical data download from", start, "to", end, "done")
+        #self.uf.close_File_to_Save_Bars_to()
+        Write_to_File.saving_Bars_to_File(self.Ticks_List)
+        print("Historical bar data download from", start, "to", end, "done")
     
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
         for tick in ticks:
-            self.Ticks_List.append(str(tick.time) + "|" + str(tick.price) + "|" + str(tick.size) + "|" + str(tick.exchange) + "|" + str(tick.specialConditions) + "\n")
+            self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=tick.time)) + "|" + str(tick.price) + "|" + str(tick.size) + "|" + str(tick.exchange) + "|" + str(tick.specialConditions) + "\n")
         if done is True:
-            historicalTicksDownloadDone(done)
+            self.historicalTicksDownloadDone(done)
     
     def historicalTicksDownloadDone(self, done: bool):
         Write_to_File.saving_Ticks_to_File(self.Ticks_List)
-        print("Historical data download done")
+        print("Historical tick data download done")
 
 ###This is where parameters are defined and requests are made from
 def main():
@@ -90,12 +90,12 @@ def main():
     
 ###Requests to TWS (using EClient)
 
-    ###Requesting historical 1 second resolution data    
+    ### Requesting historical 1 second resolution data    
     #app.reqContractDetails(1001,contract)
     #app.reqHistoricalData(1002, contract, dt.datetime(2018,1,2,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
     
-    ###Requesting historical tick resolution data
+    ### Requesting historical tick resolution data
     app.reqHistoricalTicks(1003, contract,"20180829 14:30:00", "", 100, "TRADES", 1, True, [])
 
 #Historical Data Request Description:
