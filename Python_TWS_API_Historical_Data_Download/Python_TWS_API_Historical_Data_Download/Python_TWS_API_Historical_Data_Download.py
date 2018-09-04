@@ -30,7 +30,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        self.Ticks_List.append(bar.date + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
+        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date)) + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
@@ -92,11 +92,11 @@ def main():
 
     ### Requesting historical 1 second resolution data    
     #app.reqContractDetails(1001,contract)
-    #app.reqHistoricalData(1002, contract, dt.datetime(2018,1,2,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
+    app.reqHistoricalData(1002, contract, dt.datetime(2018,1,2,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
     
     ### Requesting historical tick resolution data
-    app.reqHistoricalTicks(1003, contract,"20180829 14:30:00", "", 100, "TRADES", 1, True, [])
+    #app.reqHistoricalTicks(1003, contract,"20180829 14:30:00", "", 100, "TRADES", 1, True, [])
 
 #Historical Data Request Description:
 #region
