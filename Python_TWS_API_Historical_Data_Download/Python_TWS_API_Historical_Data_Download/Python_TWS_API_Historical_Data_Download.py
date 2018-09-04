@@ -61,6 +61,17 @@ class New_App (EWrapper, EClient, Write_to_File):
         #self.uf.close_File_to_Save_Ticks_to()
         Write_to_File.saving_Ticks_to_File(self.Ticks_List)
         print("Historical data download from", start, "to", end, "done")
+    
+    def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
+        #returns the requested historical tick data
+        for tick in ticks:
+            self.Ticks_List.append(str(tick.time) + "|" + str(tick.price) + "|" + str(tick.size) + "|" + str(tick.exchange) + "|" + str(tick.specialConditions) + "\n")
+        if done is True:
+            historicalTicksDownloadDone(done)
+    
+    def historicalTicksDownloadDone(self, done: bool):
+        Write_to_File.saving_Ticks_to_File(self.Ticks_List)
+        print("Historical data download done")
 
 ###This is where parameters are defined and requests are made from
 def main():
@@ -78,8 +89,15 @@ def main():
     contract.primaryExchange = "NYSE"
     
 ###Requests to TWS (using EClient)
+
+    ###Requesting historical 1 second resolution data    
     #app.reqContractDetails(1001,contract)
-    app.reqHistoricalData(1002, contract, (dt.datetime.today()-dt.timedelta(days=17)).strftime("%Y%m%d %H:%M:%S"), "3 D","1 hour", "TRADES", 1, 1, False, [])
+    #app.reqHistoricalData(1002, contract, dt.datetime(2018,1,2,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
+    #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
+    
+    ###Requesting historical tick resolution data
+    app.reqHistoricalTicks(1003, contract,"20180829 14:30:00", "", 100, "TRADES", 1, True, [])
+
 #Historical Data Request Description:
 #region
 #Requests contracts' historical data. When requesting historical data, a
