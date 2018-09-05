@@ -30,7 +30,7 @@
     <Compile Include="FX_Tickers.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="US_Calendar_Class.py">
+    <Compile Include="Calendar_Class.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ibapi\account_summary_tags.py" />

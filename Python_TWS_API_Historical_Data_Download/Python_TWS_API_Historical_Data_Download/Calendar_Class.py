@@ -21,4 +21,12 @@ class US_Stocks_Trading_Calendar(AbstractHolidayCalendar):
 
 US_Stocks_Trading_Cal = CustomBusinessDay(calendar = US_Stocks_Trading_Calendar())
 
+class FX_Trading_Calendar(AbstractHolidayCalendar):
+    rules= [
+        Holiday("New Year's Day", month=1, day=1), 
+        Holiday("Christmas Day", month=12, day=25, observance=next_monday), 
+    ]
+
+FX_Trading_Cal = CustomBusinessDay(calendar = FX_Trading_Calendar())
+
 

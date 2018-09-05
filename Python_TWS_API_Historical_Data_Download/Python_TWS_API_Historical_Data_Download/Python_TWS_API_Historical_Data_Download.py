@@ -13,13 +13,25 @@ import FX_Tickers
 import Making_Requests
 
 ### Tickers
-US_Stocks_Ticker_List = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_List
-FX_Ticker_List = FX_Tickers.FX_Tickers.FX_Tickers_List
+US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
+FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_Dict
 
 ### List of dates to download data for
 start_dt="09/01/2017"
 end_dt="08/31/2018"
-Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=US_Calendar_Class.US_Stocks_Trading_Cal)
+# US_Stocks
+Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
+Trading_Date_30_minute_Intervals = [pd.time(9,59,59), pd.time(10,29,59), pd.time(10,59,59), pd.time(11,29,59), pd.time(12,0,59), pd.time(12,29,59), pd.time(13,0,59), 
+                                    pd.time(13,29,59), pd.time(14,0,59), pd.time(14,29,59), pd.time(15,0,59), pd.time(15,29,59), pd.time(16,0,59)]
+# FX
+#Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
+#Trading_Date_30_minute_Intervals = [pd.time(0,29,59), pd.time(0,59,59), pd.time(1,29,59), pd.time(1,59,59), pd.time(2,29,59), pd.time(2,59,59), pd.time(3,29,59), 
+#                                    pd.time(3,59,59), pd.time(4,29,59), pd.time(4,59,59), pd.time(5,29,59), pd.time(5,59,59), pd.time(6,29,59), pd.time(6,59,59)
+#                                    , pd.time(7,29,59), pd.time(7,59,59), pd.time(8,29,59), pd.time(8,59,59), pd.time(9,29,59), pd.time(9,59,59), pd.time(10,29,59)
+#                                    , pd.time(10,59,59), pd.time(11,29,59), pd.time(11,59,59), pd.time(12,29,59), pd.time(12,59,59), pd.time(13,29,59), pd.time(13,59,59)
+#                                    , pd.time(14,29,59), pd.time(14,59,59), pd.time(15,29,59), pd.time(15,59,59), pd.time(16,29,59), pd.time(16,59,59), pd.time(17,29,59)
+#                                    , pd.time(17,59,59), pd.time(18,29,59), pd.time(18,59,59), pd.time(19,29,59), pd.time(19,59,59), pd.time(20,29,59), pd.time(20,59,59)
+#                                    , pd.time(21,29,59), pd.time(21,59,59), pd.time(22,29,59), pd.time(22,59,59), pd.time(23,29,59), pd.time(23,59,59)]
 
 ###This is where the events are returned (into the EWrapper)
 class New_App (EWrapper, EClient, Write_to_File):
@@ -72,9 +84,12 @@ class New_App (EWrapper, EClient, Write_to_File):
         #self.wtf.close_File_to_Save_Bars_to()
         #Raw_File.close
         #self.uf.close_File_to_Save_Bars_to()
-        Write_to_File.saving_Bars_to_File(self.Ticks_List)
         print("Historical bar data download from", start, "to", end, "done")
-    
+        if dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second) == dt.time(16,0,59):
+            Write_to_File.saving_Bars_to_File(self.Ticks_List)
+        else:
+            pass
+            
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
         for tick in ticks:
@@ -95,11 +110,11 @@ def main():
     
 ###Parameter definitions
     contract = Contract()
-    contract.symbol = "CVA"
-    contract.secType = "STK"
-    contract.exchange = "SMART"
-    contract.currency = "USD"
-    contract.primaryExchange = "NYSE"
+    #contract.symbol = "CVA"
+    #contract.secType = "STK"
+    #contract.exchange = "SMART"
+    #contract.currency = "USD"
+    #contract.primaryExchange = "NYSE"
     
     #contract = Contract()
     #contract.symbol = "EUR"
@@ -113,7 +128,13 @@ def main():
     #app.reqContractDetails(1001,contract)
 
     ### Requesting historical 1 second resolution data    
-    Making_Requests.Making_Requests.Make_Bar_Request(app, contract)
+    for stock in US_Stocks_Ticker_Dict.items():
+        contract.symbol = stock[0]
+        contract.secType = "STK"
+        contract.exchange = "SMART"
+        contract.currency = "USD"
+        contract.primaryExchange = stock[1]
+        Making_Requests.Making_Requests.Make_Bar_Request(app, contract)
     #app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
     
