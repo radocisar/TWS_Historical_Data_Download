@@ -21,6 +21,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="US_Stock_Tickers.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FX_Tickers.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="US_Calendar_Class.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ibapi\account_summary_tags.py" />
     <Compile Include="ibapi\client.py" />
     <Compile Include="ibapi\comm.py" />

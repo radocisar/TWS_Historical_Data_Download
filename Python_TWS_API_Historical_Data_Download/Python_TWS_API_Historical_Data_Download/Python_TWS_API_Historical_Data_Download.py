@@ -5,8 +5,20 @@ from ibapi.contract import *
 import datetime as dt
 #from Utility_Functions import Utility_Functions
 from Utility_Functions import Write_to_File
+import pandas as pd
+from pandas.tseries.offsets import CustomBusinessDay
+import US_Calendar_Class
+import US_Stock_Tickers
+import FX_Tickers
 
-#Raw_File = ""
+### Tickers
+US_Stocks_Ticker_List = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_List
+FX_Ticker_List = FX_Tickers.FX_Tickers.FX_Tickers_List
+
+### List of dates to download data for
+start_dt="09/01/2017"
+end_dt="08/31/2018"
+Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=US_Calendar_Class.US_Stocks_Trading_Cal)
 
 ###This is where the events are returned (into the EWrapper)
 class New_App (EWrapper, EClient, Write_to_File):
@@ -30,7 +42,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
+        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
@@ -65,7 +77,7 @@ class New_App (EWrapper, EClient, Write_to_File):
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
         for tick in ticks:
-            self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=tick.time)) + "|" + str(tick.price) + "|" + str(tick.size) + "|" + str(tick.exchange) + "|" + str(tick.specialConditions) + "\n")
+            self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=tick.time)) + "|" + str(tick.price) + "|" + str(tick.size) + "|" + str(tick.exchange) + "|" + str(tick.specialConditions) + "|" + "\n")
         if done is True:
             self.historicalTicksDownloadDone(done)
     
@@ -88,15 +100,23 @@ def main():
     contract.currency = "USD"
     contract.primaryExchange = "NYSE"
     
+    #contract = Contract()
+    #contract.symbol = "EUR"
+    #contract.secType = "CASH"
+    #contract.currency = "GBP"
+    #contract.exchange = "IDEALPRO"
+
 ###Requests to TWS (using EClient)
+    
+    ### Requesting contract details
+    #app.reqContractDetails(1001,contract)
 
     ### Requesting historical 1 second resolution data    
-    #app.reqContractDetails(1001,contract)
-    app.reqHistoricalData(1002, contract, dt.datetime(2018,1,2,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
+    app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
     
     ### Requesting historical tick resolution data
-    #app.reqHistoricalTicks(1003, contract,"20180829 14:30:00", "", 100, "TRADES", 1, True, [])
+    #app.reqHistoricalTicks(1003, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
 
 #Historical Data Request Description:
 #region
