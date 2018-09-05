@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Making_Requests.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="US_Stock_Tickers.py">
       <SubType>Code</SubType>
     </Compile>

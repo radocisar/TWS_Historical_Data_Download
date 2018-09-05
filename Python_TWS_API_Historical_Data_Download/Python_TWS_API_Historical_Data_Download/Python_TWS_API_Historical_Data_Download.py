@@ -10,6 +10,7 @@ from pandas.tseries.offsets import CustomBusinessDay
 import US_Calendar_Class
 import US_Stock_Tickers
 import FX_Tickers
+import Making_Requests
 
 ### Tickers
 US_Stocks_Ticker_List = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_List
@@ -112,10 +113,12 @@ def main():
     #app.reqContractDetails(1001,contract)
 
     ### Requesting historical 1 second resolution data    
-    app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
+    Making_Requests.Making_Requests.Make_Bar_Request(app, contract)
+    #app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
     
     ### Requesting historical tick resolution data
+    #Making_Requests.Making_Requests.Make_Ticks_Request(app, contract)
     #app.reqHistoricalTicks(1003, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
 
 #Historical Data Request Description:
