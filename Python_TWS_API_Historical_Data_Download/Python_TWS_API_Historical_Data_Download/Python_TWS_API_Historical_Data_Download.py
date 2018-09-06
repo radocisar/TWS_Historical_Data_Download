@@ -57,7 +57,8 @@ class New_App (EWrapper, EClient, Write_to_File):
         
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
+        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
+                               "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
@@ -107,10 +108,10 @@ class New_App (EWrapper, EClient, Write_to_File):
 def main():
     app = New_App()
     
-    ###Connection
+    ### Connection
     app.connect("127.0.0.1",7496,1111530)
     
-    ###Parameter definitions
+    ### Parameter definitions
     contract = Contract()
     #contract.symbol = "CVA"
     #contract.secType = "STK"
