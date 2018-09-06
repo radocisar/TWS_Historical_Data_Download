@@ -13,7 +13,7 @@ class Write_to_File:
     ### For Bars
     @staticmethod
     def saving_Bars_to_File(Ticks_List):
-        Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestBarsFile.txt","w")
+        Raw_File = open("C:\Raw_Data\Raw_1_sec_Bar_Data\TestBarsFile.txt","w")
         Raw_File.write("DateTime_UTC|Open|High|Low|Close|Volume|Count|\n")
         for l in Ticks_List:
             Raw_File.write(l)

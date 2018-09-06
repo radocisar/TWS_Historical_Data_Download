@@ -90,7 +90,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         #self.uf.close_File_to_Save_Bars_to()
         print("Historical bar data download from", start, "to", end, "done")
         if dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second) == dt.time(16,0,59):
-            Write_to_File.saving_Bars_to_File(self.Ticks_List)
+            Write_to_File.saving_Bars_to_File(self.Ticks_List, )
         else:
             pass
             
