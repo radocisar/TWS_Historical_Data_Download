@@ -90,7 +90,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         #self.uf.close_File_to_Save_Bars_to()
         print("Historical bar data download from", start, "to", end, "done")
         if dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second) == dt.time(16,0,59):
-            Write_to_File.saving_Bars_to_File(self.Ticks_List, )
+            Write_to_File.saving_Bars_to_File(self.Ticks_List, Trading_date_item, Ticker_Symbol, Sec_Type_and_Currency)
         else:
             pass
             
@@ -139,10 +139,16 @@ def main():
         contract.exchange = "SMART"
         contract.currency = "USD"
         contract.primaryExchange = stock[1]
+        global Ticker_Symbol
+        Ticker_Symbol = contract.symbol
+        global Sec_Type_and_Currency
+        Sec_Type_and_Currency = contract.secType + "|" + contract.currency
         # Time Duration of requested seconds
         time_duration = "1799 S"
         time_resolution = "1 secs"
         for trading_date in Trading_Dates_List:
+            global trading_date_item
+                Trading_date_item = trading_date
             for end_trading_time in Trading_Date_30_minute_Intervals:
                 Making_Requests.Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 time.sleep(10)
