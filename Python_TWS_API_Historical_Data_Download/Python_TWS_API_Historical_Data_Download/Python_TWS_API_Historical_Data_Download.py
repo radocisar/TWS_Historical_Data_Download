@@ -148,7 +148,7 @@ def main():
         time_resolution = "1 secs"
         for trading_date in Trading_Dates_List:
             global trading_date_item
-                Trading_date_item = trading_date
+            Trading_date_item = trading_date
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
                 Making_Requests.Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
