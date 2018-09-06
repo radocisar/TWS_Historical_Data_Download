@@ -7,7 +7,7 @@ import datetime as dt
 from Utility_Functions import Write_to_File
 import pandas as pd
 from pandas.tseries.offsets import CustomBusinessDay
-import US_Calendar_Class
+import Calendar_Class
 import US_Stock_Tickers
 import FX_Tickers
 import Making_Requests
@@ -21,10 +21,12 @@ start_dt="09/01/2017"
 end_dt="08/31/2018"
 # US_Stocks
 Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
-Trading_Date_30_minute_Intervals = [pd.time(9,59,59), pd.time(10,29,59), pd.time(10,59,59), pd.time(11,29,59), pd.time(12,0,59), pd.time(12,29,59), pd.time(13,0,59), 
-                                    pd.time(13,29,59), pd.time(14,0,59), pd.time(14,29,59), pd.time(15,0,59), pd.time(15,29,59), pd.time(16,0,59)]
+Trading_Dates_List.reverse()
+Trading_Date_30_minute_Intervals = [pd.time(9,59,59), pd.time(10,29,59), pd.time(10,59,59), pd.time(11,29,59), pd.time(11,59,59), pd.time(12,29,59), pd.time(12,59,59), 
+                                    pd.time(13,29,59), pd.time(13,59,59), pd.time(14,29,59), pd.time(14,59,59), pd.time(15,29,59), pd.time(15,59,59)]
 # FX
 #Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
+#Trading_Dates_List.reverse()
 #Trading_Date_30_minute_Intervals = [pd.time(0,29,59), pd.time(0,59,59), pd.time(1,29,59), pd.time(1,59,59), pd.time(2,29,59), pd.time(2,59,59), pd.time(3,29,59), 
 #                                    pd.time(3,59,59), pd.time(4,29,59), pd.time(4,59,59), pd.time(5,29,59), pd.time(5,59,59), pd.time(6,29,59), pd.time(6,59,59)
 #                                    , pd.time(7,29,59), pd.time(7,59,59), pd.time(8,29,59), pd.time(8,59,59), pd.time(9,29,59), pd.time(9,59,59), pd.time(10,29,59)
@@ -101,14 +103,14 @@ class New_App (EWrapper, EClient, Write_to_File):
         Write_to_File.saving_Ticks_to_File(self.Ticks_List)
         print("Historical tick data download done")
 
-###This is where parameters are defined and requests are made from
+### This is where parameters are defined and requests are made from
 def main():
     app = New_App()
     
-###Connection
+    ###Connection
     app.connect("127.0.0.1",7496,1111530)
     
-###Parameter definitions
+    ###Parameter definitions
     contract = Contract()
     #contract.symbol = "CVA"
     #contract.secType = "STK"
@@ -122,77 +124,83 @@ def main():
     #contract.currency = "GBP"
     #contract.exchange = "IDEALPRO"
 
-###Requests to TWS (using EClient)
+    ### Requests to TWS (using EClient)
     
     ### Requesting contract details
     #app.reqContractDetails(1001,contract)
 
-    ### Requesting historical 1 second resolution data    
+    ### Requesting historical 1 second resolution data
     for stock in US_Stocks_Ticker_Dict.items():
+        # Contract
         contract.symbol = stock[0]
         contract.secType = "STK"
         contract.exchange = "SMART"
         contract.currency = "USD"
         contract.primaryExchange = stock[1]
-        Making_Requests.Making_Requests.Make_Bar_Request(app, contract)
+        # Time Duration of requested seconds
+        time_duration = "1799 S"
+        time_resolution = "1 secs"
+        for trading_date in Trading_Dates_List:
+            for end_trading_time in Trading_Date_30_minute_Intervals:
+                Making_Requests.Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
     #app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
-    
+
     ### Requesting historical tick resolution data
     #Making_Requests.Making_Requests.Make_Ticks_Request(app, contract)
     #app.reqHistoricalTicks(1003, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
 
-#Historical Data Request Description:
-#region
-#Requests contracts' historical data. When requesting historical data, a
-#finishing time and date is required along with a duration string. The
-#resulting bars will be returned in EWrapper.historicalData()
-#reqId:TickerId - The id of the request. Must be a unique value. When the
-#    market data returns, it whatToShowill be identified by this tag. This is also
-#    used when canceling the market data.
-#contract:Contract - This object contains a description of the contract for which
-#    market data is being requested.
-#endDateTime:str - Defines a query end date and time at any point during the past 6 mos.
-#    Valid values include any date/time within the past six months in the format:
-#    yyyymmdd HH:mm:ss ttt
-#    where "ttt" is the optional time zone.
-#durationStr:str - Set the query duration up to one week, using a time unit
-#    of seconds, days or weeks. Valid values include any integer followed by a space
-#    and then S (seconds), D (days) or W (week). If no unit is specified, seconds is used.
-#barSizeSetting:str - Specifies the size of the bars that will be returned (within IB/TWS listimits).
-#    Valid values include:
-#    1 sec
-#    5 secs
-#    15 secs
-#    30 secs
-#    1 min
-#    2 mins
-#    3 mins
-#    5 mins
-#    15 mins
-#    30 mins
-#    1 hour
-#    1 day
-#whatToShow:str - Determines the nature of data beinging extracted. Valid values include:
-#    TRADES
-#    MIDPOINT
-#    BID
-#    ASK
-#    BID_ASK
-#    HISTORICAL_VOLATILITY
-#    OPTION_IMPLIED_VOLATILITY
-#useRTH:int - Determines whether to return all data available during the requested time span,
-#    or only data that falls within regular trading hours. Valid values include:
-#    0 - all data is returned even where the market in question was outside of its
-#    regular trading hours.
-#    1 - only data within the regular trading hours is returned, even if the
-#    requested time span falls partially or completely outside of the RTH.
-#formatDate: int - Determines the date format applied to returned bars. validd values include:
-#    1 - dates applying to bars returned in the format: yyyymmdd{space}{space}hh:mm:dd
-#    2 - dates are returned as a long integer specifying the number of seconds since
-#        1/1/1970 GMT.
-#chartOptions:TagValueList - For internal use only. Use default value XYZ.
-#endregion
+    #Historical Data Request Description:
+    #region
+    #Requests contracts' historical data. When requesting historical data, a
+    #finishing time and date is required along with a duration string. The
+    #resulting bars will be returned in EWrapper.historicalData()
+    #reqId:TickerId - The id of the request. Must be a unique value. When the
+    #    market data returns, it whatToShowill be identified by this tag. This is also
+    #    used when canceling the market data.
+    #contract:Contract - This object contains a description of the contract for which
+    #    market data is being requested.
+    #endDateTime:str - Defines a query end date and time at any point during the past 6 mos.
+    #    Valid values include any date/time within the past six months in the format:
+    #    yyyymmdd HH:mm:ss ttt
+    #    where "ttt" is the optional time zone.
+    #durationStr:str - Set the query duration up to one week, using a time unit
+    #    of seconds, days or weeks. Valid values include any integer followed by a space
+    #    and then S (seconds), D (days) or W (week). If no unit is specified, seconds is used.
+    #barSizeSetting:str - Specifies the size of the bars that will be returned (within IB/TWS listimits).
+    #    Valid values include:
+    #    1 sec
+    #    5 secs
+    #    15 secs
+    #    30 secs
+    #    1 min
+    #    2 mins
+    #    3 mins
+    #    5 mins
+    #    15 mins
+    #    30 mins
+    #    1 hour
+    #    1 day
+    #whatToShow:str - Determines the nature of data beinging extracted. Valid values include:
+    #    TRADES
+    #    MIDPOINT
+    #    BID
+    #    ASK
+    #    BID_ASK
+    #    HISTORICAL_VOLATILITY
+    #    OPTION_IMPLIED_VOLATILITY
+    #useRTH:int - Determines whether to return all data available during the requested time span,
+    #    or only data that falls within regular trading hours. Valid values include:
+    #    0 - all data is returned even where the market in question was outside of its
+    #    regular trading hours.
+    #    1 - only data within the regular trading hours is returned, even if the
+    #    requested time span falls partially or completely outside of the RTH.
+    #formatDate: int - Determines the date format applied to returned bars. validd values include:
+    #    1 - dates applying to bars returned in the format: yyyymmdd{space}{space}hh:mm:dd
+    #    2 - dates are returned as a long integer specifying the number of seconds since
+    #        1/1/1970 GMT.
+    #chartOptions:TagValueList - For internal use only. Use default value XYZ.
+    #endregion
 
     app.run()
 
