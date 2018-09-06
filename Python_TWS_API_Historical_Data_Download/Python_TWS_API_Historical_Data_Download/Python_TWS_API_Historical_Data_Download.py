@@ -18,7 +18,7 @@ US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
 FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_Dict
 
 ### List of dates to download data for
-start_dt="09/01/2017"
+start_dt="08/29/2018"
 end_dt="08/31/2018"
 # US_Stocks
 Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
@@ -149,6 +149,7 @@ def main():
         for trading_date in Trading_Dates_List:
             global trading_date_item
                 Trading_date_item = trading_date
+            app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
                 Making_Requests.Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 time.sleep(10)
