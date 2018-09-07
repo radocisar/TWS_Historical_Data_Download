@@ -24,8 +24,8 @@ end_dt="08/31/2018"
 Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
 Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
 Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
-Trading_Date_30_minute_Intervals = [dt.time(9,59,59), dt.time(10,29,59), dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), 
-                                    dt.time(13,29,59), dt.time(13,59,59), dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59)]
+Trading_Date_30_minute_Intervals = [dt.time(9,59,59), dt.time(10,29,59)]#, dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), 
+                                    #dt.time(13,29,59), dt.time(13,59,59), dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59)]
 # FX
 #Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
 #Trading_Dates_Reversed = Trading_Dates.strftime("%Y%m%d").tolist()
@@ -91,7 +91,9 @@ class New_App (EWrapper, EClient, Write_to_File):
         #Raw_File.close
         #self.uf.close_File_to_Save_Bars_to()
         print("Historical bar data download from", start, "to", end, "done")
-        if dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second) == dt.time(15,59,59):
+        Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
+        EOD_time = dt.time(10,29,59)
+        if Hist_data_end_time == EOD_time:
             Write_to_File.saving_Bars_to_File(self.Ticks_List, trading_date_item, Ticker_Symbol, Sec_Type_and_Currency)
         else:
             pass
@@ -154,7 +156,7 @@ def main():
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
                 Making_Requests.Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
-                time.sleep(10)
+                time.sleep(3)
     #app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
 

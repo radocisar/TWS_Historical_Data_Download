@@ -3,8 +3,8 @@
 #class US_Stock_Tickers(Enum):
 class US_Stock_Tickers:
     #Dict of symbol:primaryExchange
-    US_Stock_Tickers_Dict = {"CVA":"NYSE", 
-                         "IBM":"NYSE",
-                         "X":"NYSE"
-                         }
+    US_Stock_Tickers_Dict = {"CVA":"NYSE"}#, 
+                         #"IBM":"NYSE",
+                         #"X":"NYSE"
+                         #}
 

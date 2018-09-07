@@ -1,3 +1,5 @@
+import os
+
 class Write_to_File:
     #def __init__(self):
        #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
