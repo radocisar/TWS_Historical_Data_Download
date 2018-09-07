@@ -15,20 +15,21 @@ import time
 
 ### Tickers
 US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
-FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_DictTrading_Dates_List
+FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_Dict
 
 ### List of dates to download data for
 start_dt="08/29/2018"
 end_dt="08/31/2018"
 # US_Stocks
-Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
-Trading_Dates_List_List = Trading_Dates_List.strftime("%Y%m%d").tolist()
+Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
+Trading_Dates_List_List = Trading_Dates.strftime("%Y%m%d").tolist()
 Trading_Dates_List_List.reverse()
+Trading_Dates_Datetime_List = Trading_Dates_List_List
 Trading_Date_30_minute_Intervals = [dt.time(9,59,59), dt.time(10,29,59), dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), 
                                     dt.time(13,29,59), dt.time(13,59,59), dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59)]
 # FX
-#Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
-#Trading_Dates_List_List = Trading_Dates_List.strftime("%Y%m%d").tolist()
+#Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
+#Trading_Dates_List_List = Trading_Dates.strftime("%Y%m%d").tolist()
 #Trading_Dates_List_List.reverse()
 #Trading_Date_30_minute_Intervals = [dt.time(0,29,59), dt.time(0,59,59), dt.time(1,29,59), dt.time(1,59,59), dt.time(2,29,59), dt.time(2,59,59), dt.time(3,29,59), 
 #                                    dt.time(3,59,59), dt.time(4,29,59), dt.time(4,59,59), dt.time(5,29,59), dt.time(5,59,59), dt.time(6,29,59), dt.time(6,59,59)
