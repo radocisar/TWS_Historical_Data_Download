@@ -12,10 +12,10 @@ class Write_to_File:
 
     ### For Bars
     @staticmethod
-    def saving_Bars_to_File(Ticks_List, Trading_date_item, Ticker_Symbol, Sec_Type_and_Currency):
+    def saving_Bars_to_File(Ticks_List, trading_date_list_item, Ticker_Symbol, Sec_Type_and_Currency):
         if Sec_Type_and_Currency == "STK|USD":
             os.makedirs(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol)
-            Raw_File = open(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol + "\\" + Ticker_Symbol + "_Bars_" + Trading_date_item + ".txt","w")
+            Raw_File = open(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol + "\\" + Ticker_Symbol + "_Bars_" + trading_date_list_item + ".txt","w")
             Raw_File.write("DateTime_UTC|Open|High|Low|Close|Volume|Count|\n")
             for l in Ticks_List:
                 Raw_File.write(l)
@@ -23,7 +23,7 @@ class Write_to_File:
         else:
             #hdd.Sec_Type_and_Currency != "STK|USD"
             os.makedirs(r"C:\Raw_Data\Raw_1_sec_Bar_Data\FX\\" + Ticker_Symbol)
-            Raw_File = open(r"C:\Raw_Data\Raw_1_sec_Bar_Data\FX\\" + Ticker_Symbol + "_Bars_" + Trading_date_item + ".txt","w")
+            Raw_File = open(r"C:\Raw_Data\Raw_1_sec_Bar_Data\FX\\" + Ticker_Symbol + "_Bars_" + trading_date_list_item + ".txt","w")
             Raw_File.write("DateTime_UTC|Open|High|Low|Close|Volume|Count|\n")
             for l in Ticks_List:
                 Raw_File.write(l)
