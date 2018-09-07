@@ -22,12 +22,14 @@ start_dt="08/29/2018"
 end_dt="08/31/2018"
 # US_Stocks
 Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
-Trading_Dates_List.reverse()
+Trading_Dates_List_List = Trading_Dates_List.strftime("%Y%m%d").tolist()
+Trading_Dates_List_List.reverse()
 Trading_Date_30_minute_Intervals = [pd.time(9,59,59), pd.time(10,29,59), pd.time(10,59,59), pd.time(11,29,59), pd.time(11,59,59), pd.time(12,29,59), pd.time(12,59,59), 
                                     pd.time(13,29,59), pd.time(13,59,59), pd.time(14,29,59), pd.time(14,59,59), pd.time(15,29,59), pd.time(15,59,59)]
 # FX
 #Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
-#Trading_Dates_List.reverse()
+#Trading_Dates_List_List = Trading_Dates_List.strftime("%Y%m%d").tolist()
+#Trading_Dates_List_List.reverse()
 #Trading_Date_30_minute_Intervals = [pd.time(0,29,59), pd.time(0,59,59), pd.time(1,29,59), pd.time(1,59,59), pd.time(2,29,59), pd.time(2,59,59), pd.time(3,29,59), 
 #                                    pd.time(3,59,59), pd.time(4,29,59), pd.time(4,59,59), pd.time(5,29,59), pd.time(5,59,59), pd.time(6,29,59), pd.time(6,59,59)
 #                                    , pd.time(7,29,59), pd.time(7,59,59), pd.time(8,29,59), pd.time(8,59,59), pd.time(9,29,59), pd.time(9,59,59), pd.time(10,29,59)
@@ -146,7 +148,7 @@ def main():
         # Time duration and resolution of requested seconds
         time_duration = "1799 S"
         time_resolution = "1 secs"
-        for trading_date in Trading_Dates_List:
+        for trading_date in Trading_Dates_List_List:
             global trading_date_list_item
             trading_date_list_item = trading_date
             app.Ticks_List.clear()
