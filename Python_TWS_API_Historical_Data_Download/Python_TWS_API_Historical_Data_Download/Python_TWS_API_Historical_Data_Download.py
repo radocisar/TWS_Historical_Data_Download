@@ -15,7 +15,7 @@ import time
 
 ### Tickers
 US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
-FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_Dict
+FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_DictTrading_Dates_List
 
 ### List of dates to download data for
 start_dt="08/29/2018"
@@ -24,19 +24,19 @@ end_dt="08/31/2018"
 Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
 Trading_Dates_List_List = Trading_Dates_List.strftime("%Y%m%d").tolist()
 Trading_Dates_List_List.reverse()
-Trading_Date_30_minute_Intervals = [pd.time(9,59,59), pd.time(10,29,59), pd.time(10,59,59), pd.time(11,29,59), pd.time(11,59,59), pd.time(12,29,59), pd.time(12,59,59), 
-                                    pd.time(13,29,59), pd.time(13,59,59), pd.time(14,29,59), pd.time(14,59,59), pd.time(15,29,59), pd.time(15,59,59)]
+Trading_Date_30_minute_Intervals = [dt.time(9,59,59), dt.time(10,29,59), dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), 
+                                    dt.time(13,29,59), dt.time(13,59,59), dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59)]
 # FX
 #Trading_Dates_List = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
 #Trading_Dates_List_List = Trading_Dates_List.strftime("%Y%m%d").tolist()
 #Trading_Dates_List_List.reverse()
-#Trading_Date_30_minute_Intervals = [pd.time(0,29,59), pd.time(0,59,59), pd.time(1,29,59), pd.time(1,59,59), pd.time(2,29,59), pd.time(2,59,59), pd.time(3,29,59), 
-#                                    pd.time(3,59,59), pd.time(4,29,59), pd.time(4,59,59), pd.time(5,29,59), pd.time(5,59,59), pd.time(6,29,59), pd.time(6,59,59)
-#                                    , pd.time(7,29,59), pd.time(7,59,59), pd.time(8,29,59), pd.time(8,59,59), pd.time(9,29,59), pd.time(9,59,59), pd.time(10,29,59)
-#                                    , pd.time(10,59,59), pd.time(11,29,59), pd.time(11,59,59), pd.time(12,29,59), pd.time(12,59,59), pd.time(13,29,59), pd.time(13,59,59)
-#                                    , pd.time(14,29,59), pd.time(14,59,59), pd.time(15,29,59), pd.time(15,59,59), pd.time(16,29,59), pd.time(16,59,59), pd.time(17,29,59)
-#                                    , pd.time(17,59,59), pd.time(18,29,59), pd.time(18,59,59), pd.time(19,29,59), pd.time(19,59,59), pd.time(20,29,59), pd.time(20,59,59)
-#                                    , pd.time(21,29,59), pd.time(21,59,59), pd.time(22,29,59), pd.time(22,59,59), pd.time(23,29,59), pd.time(23,59,59)]
+#Trading_Date_30_minute_Intervals = [dt.time(0,29,59), dt.time(0,59,59), dt.time(1,29,59), dt.time(1,59,59), dt.time(2,29,59), dt.time(2,59,59), dt.time(3,29,59), 
+#                                    dt.time(3,59,59), dt.time(4,29,59), dt.time(4,59,59), dt.time(5,29,59), dt.time(5,59,59), dt.time(6,29,59), dt.time(6,59,59)
+#                                    , dt.time(7,29,59), dt.time(7,59,59), dt.time(8,29,59), dt.time(8,59,59), dt.time(9,29,59), dt.time(9,59,59), dt.time(10,29,59)
+#                                    , dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), dt.time(13,29,59), dt.time(13,59,59)
+#                                    , dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59), dt.time(16,29,59), dt.time(16,59,59), dt.time(17,29,59)
+#                                    , dt.time(17,59,59), dt.time(18,29,59), dt.time(18,59,59), dt.time(19,29,59), dt.time(19,59,59), dt.time(20,29,59), dt.time(20,59,59)
+#                                    , dt.time(21,29,59), dt.time(21,59,59), dt.time(22,29,59), dt.time(22,59,59), dt.time(23,29,59), dt.time(23,59,59)]
 
 ###This is where the events are returned (into the EWrapper)
 class New_App (EWrapper, EClient, Write_to_File):
