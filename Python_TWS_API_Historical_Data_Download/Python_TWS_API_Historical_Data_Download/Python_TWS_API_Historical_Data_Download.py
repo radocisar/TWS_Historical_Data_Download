@@ -96,9 +96,10 @@ class New_App (EWrapper, EClient, Write_to_File):
         EOD_time = dt.time(10,29,59)
         if Hist_data_end_time == EOD_time:
             Write_to_File.saving_Bars_to_File(self.Ticks_List, trading_date_item, Ticker_Symbol, Sec_Type_and_Currency)
-            self.disconnect()
+            #self.disconnect()
         else:
-            self.disconnect()
+            pass
+            #self.disconnect()
             
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
