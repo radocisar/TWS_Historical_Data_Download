@@ -14,6 +14,8 @@ import Making_Requests
 import time
 import threading
 
+count = 0
+
 #### Tickers
 #US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
 #FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_Dict
@@ -63,6 +65,9 @@ class New_App (EWrapper, EClient, Write_to_File):
         #returns the requested historical data bars
         self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
+        global count
+        count += 1
+        print(count)
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            

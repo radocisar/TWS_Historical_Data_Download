@@ -59,20 +59,23 @@ def Preparing_and_iterating_requests(app, Not_first_time):
         global Sec_Type_and_Currency
         Sec_Type_and_Currency = contract.secType + "|" + contract.currency
         # Time duration and resolution of requested seconds
-        time_duration = "1799 S"
+        time_duration = "1800 S"
         time_resolution = "1 secs"
         for trading_date in Trading_Dates_Reversed:
             global trading_date_item
             trading_date_item = trading_date.strftime("%Y%m%d")
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
-                global Not_first_time
                 if Not_first_time == True:
                     time.sleep(30)
+                    print("Slept for 50 secs")
                 else:
                     time.sleep(5)
+                    print("Slept for 5 secs")
                     Not_first_time = True
                 #time.sleep(15)
+                global count
+                count = 0
                 Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 #app.run()
                 time.sleep(3)
