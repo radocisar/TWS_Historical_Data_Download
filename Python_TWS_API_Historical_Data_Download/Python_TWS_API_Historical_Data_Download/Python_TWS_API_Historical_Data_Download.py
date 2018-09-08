@@ -15,6 +15,7 @@ import time
 import threading
 
 count = 0
+Pending_download = False
 
 #### Tickers
 #US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
@@ -105,7 +106,9 @@ class New_App (EWrapper, EClient, Write_to_File):
         else:
             pass
             #self.disconnect()
-            
+        global Pending_download
+        Pending_download = False
+
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
         for tick in ticks:

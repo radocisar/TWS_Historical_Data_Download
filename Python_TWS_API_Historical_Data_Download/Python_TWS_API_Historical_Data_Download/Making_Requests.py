@@ -19,19 +19,19 @@ end_dt="08/31/2018"
 Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
 Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
 Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
-Trading_Date_30_minute_Intervals = [dt.time(9,59,59), dt.time(10,29,59)]#, dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), 
-                                    #dt.time(13,29,59), dt.time(13,59,59), dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59)]
+Trading_Date_30_minute_Intervals = [dt.time(10,0,0), dt.time(10,30,0)]#, dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), 
+                                    #dt.time(13,30,0), dt.time(14,0,0), dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0)]
 # FX
 #Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
 #Trading_Dates_Reversed = Trading_Dates.strftime("%Y%m%d").tolist()
 #Trading_Dates_Reversed.reverse()
-#Trading_Date_30_minute_Intervals = [dt.time(0,29,59), dt.time(0,59,59), dt.time(1,29,59), dt.time(1,59,59), dt.time(2,29,59), dt.time(2,59,59), dt.time(3,29,59), 
-#                                    dt.time(3,59,59), dt.time(4,29,59), dt.time(4,59,59), dt.time(5,29,59), dt.time(5,59,59), dt.time(6,29,59), dt.time(6,59,59)
-#                                    , dt.time(7,29,59), dt.time(7,59,59), dt.time(8,29,59), dt.time(8,59,59), dt.time(9,29,59), dt.time(9,59,59), dt.time(10,29,59)
-#                                    , dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), dt.time(13,29,59), dt.time(13,59,59)
-#                                    , dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59), dt.time(16,29,59), dt.time(16,59,59), dt.time(17,29,59)
-#                                    , dt.time(17,59,59), dt.time(18,29,59), dt.time(18,59,59), dt.time(19,29,59), dt.time(19,59,59), dt.time(20,29,59), dt.time(20,59,59)
-#                                    , dt.time(21,29,59), dt.time(21,59,59), dt.time(22,29,59), dt.time(22,59,59), dt.time(23,29,59), dt.time(23,59,59)]
+#Trading_Date_30_minute_Intervals = [dt.time(0,30,0), dt.time(1,0,0), dt.time(1,30,0), dt.time(2,0,0), dt.time(2,30,0), dt.time(3,0,0), dt.time(3,30,0), 
+#                                    dt.time(4,0,0), dt.time(4,30,0), dt.time(5,0,0), dt.time(5,30,0), dt.time(6,0,0), dt.time(6,30,0), dt.time(7,0,0)
+#                                    , dt.time(7,30,0), dt.time(8,0,0), dt.time(8,30,0), dt.time(9,0,0), dt.time(9,30,0), dt.time(10,0,0), dt.time(10,30,0)
+#                                    , dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), dt.time(13,30,0), dt.time(14,0,0)
+#                                    , dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0), dt.time(16,30,0), dt.time(17,0,0), dt.time(17,30,0)
+#                                    , dt.time(18,0,0), dt.time(18,30,0), dt.time(19,0,0), dt.time(19,30,0), dt.time(20,0,0), dt.time(20,30,0), dt.time(21,0,0)
+#                                    , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(24,0,0)]
 
 class Making_Requests:
     """description of class"""
@@ -66,11 +66,14 @@ def Preparing_and_iterating_requests(app, Not_first_time):
             trading_date_item = trading_date.strftime("%Y%m%d")
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
-                if Not_first_time == True:
-                    time.sleep(30)
-                    print("Slept for 50 secs")
+                # Sleeping to allow connection to complete
+                if Not_first_time == True:    
+                    pass
+                    #time.sleep(30)
+                    #print("Slept for 30 secs")
                 else:
                     time.sleep(5)
+                    #TODO Change to 15 seconds
                     print("Slept for 5 secs")
                     Not_first_time = True
                 #time.sleep(15)
@@ -78,4 +81,8 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                 count = 0
                 Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 #app.run()
-                time.sleep(3)
+                global Pending_download
+                Pending_download = True
+                while Pending_download == True:
+                        pass
+                #time.sleep(3)
