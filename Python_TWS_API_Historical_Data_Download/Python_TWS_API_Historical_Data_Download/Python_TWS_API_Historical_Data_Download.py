@@ -99,15 +99,15 @@ class New_App (EWrapper, EClient, Write_to_File):
         #self.uf.close_File_to_Save_Bars_to()
         print("Historical bar data download from", start, "to", end, "done")
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
-        EOD_time = dt.time(10,29,59)
+        EOD_time = dt.time(10,30,0)
         if Hist_data_end_time == EOD_time:
             Write_to_File.saving_Bars_to_File(self.Ticks_List, trading_date_item, Ticker_Symbol, Sec_Type_and_Currency)
             #self.disconnect()
         else:
             pass
             #self.disconnect()
-        global Pending_download
-        Pending_download = False
+        #global Pending_download
+        Making_Requests.Pending_download(False)
 
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data

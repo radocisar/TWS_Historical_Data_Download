@@ -43,6 +43,10 @@ class Making_Requests:
     def Make_Ticks_Request(app, contract):
         app.reqHistoricalTicks(1003, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
 
+@classmethod
+def Pending_download(state:bool):
+    return state
+
 def Preparing_and_iterating_requests(app, Not_first_time):
     ### Contract:
     contract = Contract()
@@ -81,8 +85,8 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                 count = 0
                 Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 #app.run()
-                global Pending_download
-                Pending_download = True
+                #global Pending_download
+                Pending_download(True)
                 while Pending_download == True:
-                        pass
+                        time.sleep(3)
                 #time.sleep(3)
