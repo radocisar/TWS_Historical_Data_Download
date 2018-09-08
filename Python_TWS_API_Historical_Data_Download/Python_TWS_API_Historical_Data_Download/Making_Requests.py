@@ -6,6 +6,7 @@ import datetime as dt
 import pandas as pd
 from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
+import time
 
 ### Tickers
 US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
@@ -65,6 +66,7 @@ def Preparing_and_iterating_requests(app):
             trading_date_item = trading_date.strftime("%Y%m%d")
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
+                time.sleep(5)
                 Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
-                app.run()
+                #app.run()
                 time.sleep(3)
