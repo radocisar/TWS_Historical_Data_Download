@@ -95,8 +95,9 @@ class New_App (EWrapper, EClient, Write_to_File):
         EOD_time = dt.time(10,29,59)
         if Hist_data_end_time == EOD_time:
             Write_to_File.saving_Bars_to_File(self.Ticks_List, trading_date_item, Ticker_Symbol, Sec_Type_and_Currency)
+            self.disconnect()
         else:
-            pass
+            self.disconnect()
             
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
@@ -115,7 +116,7 @@ def main():
     
     ### Connection
     app.connect("127.0.0.1",7496,1111530)
-    app.run()
+    
     ### Parameter definitions
     contract = Contract()
     #contract.symbol = "CVA"
@@ -156,7 +157,7 @@ def main():
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
                 Making_Requests.Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
-                
+                app.run()
                 time.sleep(3)
     #app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
     #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
