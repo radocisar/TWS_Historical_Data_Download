@@ -119,7 +119,7 @@ def main():
     ### Connection
     app.connect("127.0.0.1",7496,1111530)
     
-    t = threading.Thread(target=Making_Requests.Preparing_and_iterating_requests, name="Thread 1", arg_str=app)
+    t = threading.Thread(target=Making_Requests.Preparing_and_iterating_requests, name="Thread 1", args=(app,))
     t.daemon = True
     t.start()
 
