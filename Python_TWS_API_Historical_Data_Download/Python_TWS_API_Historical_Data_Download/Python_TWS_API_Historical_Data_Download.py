@@ -101,7 +101,7 @@ class New_App (EWrapper, EClient, Write_to_File):
     def Update_Ticker_Symbol(self, Ticker_Symbol):
         self.Ticker_Symbol = Ticker_Symbol
 
-    def Update_Sec_Type_and_Currency(self):
+    def Update_Sec_Type_and_Currency(self, Sec_Type_and_Currency):
         self.Sec_Type_and_Currency = Sec_Type_and_Currency
 
     def historicalDataEnd(self, reqId:int, start:str, end:str):
