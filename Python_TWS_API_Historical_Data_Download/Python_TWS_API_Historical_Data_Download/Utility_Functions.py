@@ -17,7 +17,7 @@ class Write_to_File:
     def saving_Bars_to_File(Ticks_List, trading_date_item, Ticker_Symbol, Sec_Type_and_Currency):
         if Sec_Type_and_Currency == "STK|USD":
             Folder = r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol
-            if Folder.exists():
+            if os.path.exists(Folder):
                 pass
             else:
                 os.makedirs(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol)
