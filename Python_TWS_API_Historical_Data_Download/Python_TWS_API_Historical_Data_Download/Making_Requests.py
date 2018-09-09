@@ -7,6 +7,7 @@ import pandas as pd
 from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
 import time
+import Python_TWS_API_Historical_Data_Download
 
 ### Tickers
 US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
@@ -37,17 +38,22 @@ class Making_Requests:
     """description of class"""
     @staticmethod
     def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):
+        #global Pending_download
         app.reqHistoricalData(1002, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])
+        #Pending_download = True
 
     @staticmethod
     def Make_Ticks_Request(app, contract):
         app.reqHistoricalTicks(1003, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
 
-@classmethod
-def Pending_download(state:bool):
-    return state
+Pending_download = False
+
+def Update_Pending_download(status:bool):
+    global Pending_download
+    Pending_download = status
 
 def Preparing_and_iterating_requests(app, Not_first_time):
+    
     ### Contract:
     contract = Contract()
     ### Requesting historical 1 second resolution data
@@ -58,16 +64,18 @@ def Preparing_and_iterating_requests(app, Not_first_time):
         contract.exchange = "SMART"
         contract.currency = "USD"
         contract.primaryExchange = stock[1]
-        global Ticker_Symbol
-        Ticker_Symbol = contract.symbol
-        global Sec_Type_and_Currency
+        #global Ticker_Symbol
+        #Ticker_Symbol = contract.symbol
+        app.Update_Ticker_Symbol(contract.symbol)
+        #global Sec_Type_and_Currency
         Sec_Type_and_Currency = contract.secType + "|" + contract.currency
+        app.Update_Sec_Type_and_Currency(Sec_Type_and_Currency)
         # Time duration and resolution of requested seconds
         time_duration = "1800 S"
         time_resolution = "1 secs"
         for trading_date in Trading_Dates_Reversed:
-            global trading_date_item
-            trading_date_item = trading_date.strftime("%Y%m%d")
+            #global trading_date_item
+            app.Update_trading_date_item(trading_date.strftime("%Y%m%d"))
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
                 # Sleeping to allow connection to complete
@@ -85,8 +93,10 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                 count = 0
                 Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 #app.run()
+
+                #Python_TWS_API_Historical_Data_Download.Pending_download = True
                 #global Pending_download
-                Pending_download(True)
+                Update_Pending_download(True)
                 while Pending_download == True:
                         time.sleep(3)
                 #time.sleep(3)

@@ -15,7 +15,7 @@ import time
 import threading
 
 count = 0
-Pending_download = False
+
 
 #### Tickers
 #US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
@@ -44,7 +44,7 @@ Pending_download = False
 
 ###This is where the events are returned (into the EWrapper)
 class New_App (EWrapper, EClient, Write_to_File):
-    
+    #Pending_download = False
     #uf = Utility_Functions()
     #wtf = Write_to_File()
 
@@ -91,12 +91,25 @@ class New_App (EWrapper, EClient, Write_to_File):
         WAP -   the bar's Weighted Average Price
         hasGaps  -indicates if the data has gaps or not."""
         #endregion
-    
+    trading_date_item = ""
+    Ticker_Symbol = ""
+    Sec_Type_and_Currency = ""
+
+    def Update_trading_date_item(self, trading_date_item):
+        self.trading_date_item = trading_date_item
+
+    def Update_Ticker_Symbol(self, Ticker_Symbol):
+        self.Ticker_Symbol = Ticker_Symbol
+
+    def Update_Sec_Type_and_Currency(self):
+        self.Sec_Type_and_Currency = Sec_Type_and_Currency
+
     def historicalDataEnd(self, reqId:int, start:str, end:str):
         """ Marks the ending of the historical bars reception. """
         #self.wtf.close_File_to_Save_Bars_to()
         #Raw_File.close
         #self.uf.close_File_to_Save_Bars_to()
+        global trading_date_item
         print("Historical bar data download from", start, "to", end, "done")
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
         EOD_time = dt.time(10,30,0)
@@ -107,7 +120,7 @@ class New_App (EWrapper, EClient, Write_to_File):
             pass
             #self.disconnect()
         #global Pending_download
-        Making_Requests.Pending_download(False)
+        Making_Requests.Update_Pending_download(False)
 
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
