@@ -114,7 +114,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
         EOD_time = dt.time(10,30,0)
         if Hist_data_end_time == EOD_time:
-            Write_to_File.saving_Bars_to_File(self.Ticks_List, trading_date_item, Ticker_Symbol, Sec_Type_and_Currency)
+            Write_to_File.saving_Bars_to_File(self.Ticks_List, self.trading_date_item, self.Ticker_Symbol, self.Sec_Type_and_Currency)
             #self.disconnect()
         else:
             pass
