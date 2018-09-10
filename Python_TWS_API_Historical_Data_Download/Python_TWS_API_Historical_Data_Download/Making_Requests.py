@@ -34,6 +34,8 @@ Trading_Date_30_minute_Intervals = [dt.time(10,0,0), dt.time(10,30,0)]#, dt.time
 #                                    , dt.time(18,0,0), dt.time(18,30,0), dt.time(19,0,0), dt.time(19,30,0), dt.time(20,0,0), dt.time(20,30,0), dt.time(21,0,0)
 #                                    , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(24,0,0)]
 
+### Timing
+
 class Making_Requests:
     """description of class"""
     @staticmethod
@@ -80,9 +82,10 @@ def Preparing_and_iterating_requests(app, Not_first_time):
             for end_trading_time in Trading_Date_30_minute_Intervals:
                 # Sleeping to allow connection to complete
                 if Not_first_time == True:    
-                    pass
-                    #time.sleep(30)
-                    #print("Slept for 30 secs")
+                    #pass
+                    time.sleep(2)
+                    print("Slept for 2 secs")
+                    print("Download took: {}".format(time.time() - start_time))  
                 else:
                     time.sleep(5)
                     #TODO Change to 15 seconds
@@ -94,12 +97,12 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                 #Python_TWS_API_Historical_Data_Download.Partial_download_complete.clear()
                 Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 #app.run()
-                
+                start_time = time.time()
                 #Python_TWS_API_Historical_Data_Download.Partial_download_complete.wait()
                 
                 Update_Pending_download(True)
                 while Pending_download == True:
                         time.sleep(3)
                 
-                        
+                       
                 #time.sleep(3)
