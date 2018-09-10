@@ -71,7 +71,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         global count
         count += 1
         if math.fmod(count,100) == 0:
-            print(self.Update_Ticker_Symbol + str(bar.date) + "" + str(count))
+            print(self.Ticker_Symbol + "|" + str(bar.date) + "|" + str(count))
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
