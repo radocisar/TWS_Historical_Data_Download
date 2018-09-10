@@ -16,6 +16,7 @@ import threading
 
 count = 0
 
+#Partial_download_complete = threading.Event()
 
 #### Tickers
 #US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
@@ -110,6 +111,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         #Raw_File.close
         #self.uf.close_File_to_Save_Bars_to()
         global trading_date_item
+        #global Partial_download_complete
         print("Historical bar data download from", start, "to", end, "done")
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
         EOD_time = dt.time(10,30,0)
@@ -121,7 +123,7 @@ class New_App (EWrapper, EClient, Write_to_File):
             #self.disconnect()
         #global Pending_download
         Making_Requests.Update_Pending_download(False)
-
+        #Partial_download_complete.set()
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
         for tick in ticks:
@@ -142,7 +144,7 @@ def main():
     
     Not_first_time = False
 
-    t = threading.Thread(target=Making_Requests.Preparing_and_iterating_requests, name="Thread 1", args=(app, Not_first_time))
+    t = threading.Thread(target=Making_Requests.Preparing_and_iterating_requests, name="Requesting Data Thread", args=(app, Not_first_time))
     t.daemon = True
     t.start()
 

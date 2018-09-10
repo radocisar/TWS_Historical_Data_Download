@@ -39,9 +39,9 @@ class Making_Requests:
     @staticmethod
     def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):
         #global Pending_download
-        app.reqHistoricalData(1002, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])
+        app.reqHistoricalData(1502, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])
         #Pending_download = True
-
+        
     @staticmethod
     def Make_Ticks_Request(app, contract):
         app.reqHistoricalTicks(1003, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
@@ -53,7 +53,7 @@ def Update_Pending_download(status:bool):
     Pending_download = status
 
 def Preparing_and_iterating_requests(app, Not_first_time):
-    
+    #global Partial_download_complete
     ### Contract:
     contract = Contract()
     ### Requesting historical 1 second resolution data
@@ -91,12 +91,15 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                 #time.sleep(15)
                 global count
                 count = 0
+                #Python_TWS_API_Historical_Data_Download.Partial_download_complete.clear()
                 Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
                 #app.run()
-
-                #Python_TWS_API_Historical_Data_Download.Pending_download = True
-                #global Pending_download
+                
+                #Python_TWS_API_Historical_Data_Download.Partial_download_complete.wait()
+                
                 Update_Pending_download(True)
                 while Pending_download == True:
                         time.sleep(3)
+                
+                        
                 #time.sleep(3)
