@@ -13,6 +13,7 @@ import FX_Tickers
 import Making_Requests
 import time
 import threading
+import math
 
 count = 0
 
@@ -69,7 +70,8 @@ class New_App (EWrapper, EClient, Write_to_File):
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
         global count
         count += 1
-        print(count)
+        if math.fmod(count,100) == 0:
+            print(self.Update_Ticker_Symbol + str(bar.date) + "" + str(count))
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
