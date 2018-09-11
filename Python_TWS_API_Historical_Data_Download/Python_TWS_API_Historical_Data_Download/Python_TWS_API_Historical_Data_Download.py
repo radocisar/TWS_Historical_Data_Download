@@ -63,7 +63,8 @@ class New_App (EWrapper, EClient, Write_to_File):
 
     def error(self, reqID:TickerId, errorCode:int, errorString:str):
         print("Error: ", reqID, errorCode, errorString)
-        
+        logger.debug("Error: ", reqID, errorCode, errorString)
+
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
         self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 

@@ -8,6 +8,14 @@ from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
 import time
 import Python_TWS_API_Historical_Data_Download
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks_Log\Overall.log")
+formatter = logging.Formatter("%(asctime)s|%(name)s|%(levelname)s|%(message)s|%(module)s|%(funcName)s|%(lineno)d|%(thread)d|%(threadName)s")
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
 
 ### Tickers
 US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
