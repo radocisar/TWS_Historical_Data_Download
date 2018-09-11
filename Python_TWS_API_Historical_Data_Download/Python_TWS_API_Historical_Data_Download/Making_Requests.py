@@ -8,14 +8,11 @@ from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
 import time
 import Python_TWS_API_Historical_Data_Download
-import logging
+#import logging
+import Logging
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks_Log\Overall.log")
-formatter = logging.Formatter("%(asctime)s|%(name)s|%(levelname)s|%(message)s|%(module)s|%(funcName)s|%(lineno)d|%(thread)d|%(threadName)s")
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
+### Instantiate logging class
+lg = Logging.Logging()
 
 ### Tickers
 US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
@@ -24,6 +21,8 @@ FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_Dict
 ### List of dates to download data for
 start_dt="08/29/2018"
 end_dt="08/31/2018"
+
+#lg.logger.debug(end_dt)
 # US_Stocks
 Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
 Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
