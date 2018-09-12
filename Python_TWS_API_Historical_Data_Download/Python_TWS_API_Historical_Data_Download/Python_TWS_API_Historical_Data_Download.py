@@ -14,6 +14,7 @@ import Making_Requests
 import time
 import threading
 import math
+import Logging
 
 count = 0
 
@@ -63,7 +64,7 @@ class New_App (EWrapper, EClient, Write_to_File):
 
     def error(self, reqID:TickerId, errorCode:int, errorString:str):
         print("Error: ", reqID, errorCode, errorString)
-        Making_Requests.lg.logger.debug("Error: {} {} {}".format(reqID, errorCode, errorString))
+        Logging.lg.logger.debug("Error: {} {} {}".format(reqID, errorCode, errorString))
 
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
@@ -73,6 +74,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         count += 1
         if math.fmod(count,100) == 0:
             print(self.Ticker_Symbol + "|" + str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(count))
+            Logging.lg.logger.debug("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(count)))
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
@@ -116,6 +118,7 @@ class New_App (EWrapper, EClient, Write_to_File):
         global trading_date_item
         #global Partial_download_complete
         print("Historical bar data download from", start, "to", end, "done")
+        Logging.lg.logger.debug("Historical bar data download from {} to {} done".format(start, end))
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
         EOD_time = dt.time(10,30,0)
         if Hist_data_end_time == EOD_time:

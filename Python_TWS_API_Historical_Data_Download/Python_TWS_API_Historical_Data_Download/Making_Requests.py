@@ -12,7 +12,7 @@ import Python_TWS_API_Historical_Data_Download
 import Logging
 
 ### Instantiate logging class
-lg = Logging.Logging()
+#lg = Logging.Logging()
 
 ### Tickers
 US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
@@ -83,7 +83,6 @@ def Preparing_and_iterating_requests(app, Not_first_time):
         time_duration = "1800 S"
         time_resolution = "1 secs"
         for trading_date in Trading_Dates_Reversed:
-            #global trading_date_item
             app.Update_trading_date_item(trading_date.strftime("%Y%m%d"))
             app.Ticks_List.clear()
             for end_trading_time in Trading_Date_30_minute_Intervals:
@@ -92,11 +91,14 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                     #pass
                     time.sleep(2)
                     print("Slept for 2 secs")
-                    print("Download took: {}".format(time.time() - start_time))  
+                    Logging.lg.logger.debug("Slept for 2 secs")
+                    print("Download took: {}".format(time.time() - start_time))
+                    Logging.lg.logger.debug("Download took: {}".format(time.time() - start_time))
                 else:
                     time.sleep(5)
                     #TODO Change to 15 seconds
                     print("Slept for 5 secs")
+                    Logging.lg.logger.debug("Slept for 5 secs")
                     Not_first_time = True
                 #time.sleep(15)
                 global count
