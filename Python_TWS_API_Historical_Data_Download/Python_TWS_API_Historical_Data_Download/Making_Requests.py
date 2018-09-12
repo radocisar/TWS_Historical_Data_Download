@@ -89,13 +89,13 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                 # Sleeping to allow connection to complete
                 if Not_first_time == True:    
                     #pass
-                    time.sleep(2)
+                    time.sleep(20)
                     print("Slept for 2 secs")
                     Logging.lg.logger.debug("Slept for 2 secs")
                     print("Download took: {}".format(time.time() - start_time))
                     Logging.lg.logger.debug("Download took: {}".format(time.time() - start_time))
                 else:
-                    time.sleep(5)
+                    time.sleep(30)
                     #TODO Change to 15 seconds
                     print("Slept for 5 secs")
                     Logging.lg.logger.debug("Slept for 5 secs")

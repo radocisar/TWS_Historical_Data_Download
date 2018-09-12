@@ -1,5 +1,6 @@
 import logging
 import datetime as dt
+import threading
 
 class Logging:
     
@@ -36,3 +37,7 @@ class Logging:
         #            self.file_handler = logging.FileHandler(self.File_Location)
         
 lg = Logging()
+
+t = threading.Thread(target=lg.Date_Updater)
+t.deamon = True
+t.start()
