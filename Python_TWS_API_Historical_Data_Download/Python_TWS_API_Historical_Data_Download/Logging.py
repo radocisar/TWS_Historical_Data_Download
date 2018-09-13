@@ -1,6 +1,7 @@
 import logging
 import datetime as dt
 import threading
+import time
 
 class Logging:
     
@@ -26,7 +27,9 @@ class Logging:
             #Logging.File_Open = False
             #self.f.close()
             self.File_Location = r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks_Log\{}_US_Stocks.log".format(self.Current_Date)
+            self.logger.removeHandler(self.file_handler)
             self.file_handler = logging.FileHandler(self.File_Location)
+            self.file_handler.setFormatter(self.formatter)
             self.logger.addHandler(self.file_handler)
             #self.f = open(self.File_Location,"w")
             #Logging.File_Open = True
