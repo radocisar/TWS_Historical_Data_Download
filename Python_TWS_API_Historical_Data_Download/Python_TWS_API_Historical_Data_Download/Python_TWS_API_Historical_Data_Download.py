@@ -117,8 +117,8 @@ class New_App (EWrapper, EClient, Write_to_File):
         #self.uf.close_File_to_Save_Bars_to()
         global trading_date_item
         #global Partial_download_complete
-        print("Historical bar data download from", start, "to", end, "done")
-        Logging.lg.logger.debug("Historical bar data download from {} to {} done".format(start, end))
+        print("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
+        Logging.lg.logger.debug("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
         EOD_time = dt.time(10,30,0)
         if Hist_data_end_time == EOD_time:

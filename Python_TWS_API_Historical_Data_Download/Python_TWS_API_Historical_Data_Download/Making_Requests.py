@@ -92,7 +92,7 @@ def Preparing_and_iterating_requests(app, Not_first_time):
                     time.sleep(20)
                     print("Slept for 2 secs")
                     Logging.lg.logger.debug("Slept for 2 secs")
-                    print("Download took: {}".format(time.time() - start_time))
+                    print("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date, end_trading_time, time.time() - start_time))
                     Logging.lg.logger.debug("Download took: {}".format(time.time() - start_time))
                 else:
                     time.sleep(30)
