@@ -10,54 +10,33 @@ from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
 import US_Stock_Tickers
 import FX_Tickers
-import Making_Requests
+from Making_Requests import Prep_and_iterating_class
 import time
 import threading
 import math
 import Logging
 
-count = 0
+#count = 0
 
 #Partial_download_complete = threading.Event()
 
-#### Tickers
-#US_Stocks_Ticker_Dict = US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict
-#FX_Ticker_Dict = FX_Tickers.FX_Tickers.FX_Tickers_Dict
-
-#### List of dates to download data for
-#start_dt="08/29/2018"
-#end_dt="08/31/2018"
-## US_Stocks
-#Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
-#Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
-#Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
-#Trading_Date_30_minute_Intervals = [dt.time(9,59,59), dt.time(10,29,59)]#, dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), 
-#                                    #dt.time(13,29,59), dt.time(13,59,59), dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59)]
-## FX
-##Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
-##Trading_Dates_Reversed = Trading_Dates.strftime("%Y%m%d").tolist()
-##Trading_Dates_Reversed.reverse()
-##Trading_Date_30_minute_Intervals = [dt.time(0,29,59), dt.time(0,59,59), dt.time(1,29,59), dt.time(1,59,59), dt.time(2,29,59), dt.time(2,59,59), dt.time(3,29,59), 
-##                                    dt.time(3,59,59), dt.time(4,29,59), dt.time(4,59,59), dt.time(5,29,59), dt.time(5,59,59), dt.time(6,29,59), dt.time(6,59,59)
-##                                    , dt.time(7,29,59), dt.time(7,59,59), dt.time(8,29,59), dt.time(8,59,59), dt.time(9,29,59), dt.time(9,59,59), dt.time(10,29,59)
-##                                    , dt.time(10,59,59), dt.time(11,29,59), dt.time(11,59,59), dt.time(12,29,59), dt.time(12,59,59), dt.time(13,29,59), dt.time(13,59,59)
-##                                    , dt.time(14,29,59), dt.time(14,59,59), dt.time(15,29,59), dt.time(15,59,59), dt.time(16,29,59), dt.time(16,59,59), dt.time(17,29,59)
-##                                    , dt.time(17,59,59), dt.time(18,29,59), dt.time(18,59,59), dt.time(19,29,59), dt.time(19,59,59), dt.time(20,29,59), dt.time(20,59,59)
-##                                    , dt.time(21,29,59), dt.time(21,59,59), dt.time(22,29,59), dt.time(22,59,59), dt.time(23,29,59), dt.time(23,59,59)]
-
 ###This is where the events are returned (into the EWrapper)
-class New_App (EWrapper, EClient, Write_to_File):
+class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class, Write_to_File):
     #Pending_download = False
     #uf = Utility_Functions()
     #wtf = Write_to_File()
+    count = 0
 
-    def __init__(self, Ticks_List=None):
+    def __init__(self, Ticks_List=None, RequestId=None):
         EClient.__init__(self,self)
+        Prep_and_iterating_class.__init__(self, Ticker_Dict)
+        Write_to_File.__init__(self)
         self.FileisnowOpen = False
         if Ticks_List is None:
             self.Ticks_List = []
         else:
             self.Ticks_List = Ticks_List
+        self.RequestId = RequestId
 
     def contractDetails(self, reqId:int, contractDetails:ContractDetails):
         print("Contract Details: ", reqId, contractDetails)
@@ -70,11 +49,10 @@ class New_App (EWrapper, EClient, Write_to_File):
         #returns the requested historical data bars
         self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
-        global count
-        count += 1
-        if math.fmod(count,100) == 0:
-            print(self.Ticker_Symbol + "|" + str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(count))
-            Logging.lg.logger.debug("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(count)))
+        self.count += 1
+        if math.fmod(self.count,100) == 0:
+            print(self.Ticker_Symbol + "|" + str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(self.count))
+            Logging.lg.logger.debug("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
@@ -122,13 +100,36 @@ class New_App (EWrapper, EClient, Write_to_File):
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
         EOD_time = dt.time(10,30,0)
         if Hist_data_end_time == EOD_time:
-            Write_to_File.saving_Bars_to_File(self.Ticks_List, self.trading_date_item, self.Ticker_Symbol, self.Sec_Type_and_Currency)
-            #self.disconnect()
+            self.saving_Bars_to_File(self.Ticks_List, self.trading_date_item, self.Ticker_Symbol, self.Sec_Type_and_Currency)
         else:
             pass
-            #self.disconnect()
-        #global Pending_download
-        Making_Requests.Update_Pending_download(False)
+        
+        #Prep_and_iterating_class_1.Update_Pending_download(False)
+        self.Update_Pending_download(False)
+        print("Historical bar data download for {} from {} to {} returned on RequestId: 1501".format(self.Ticker_Symbol, start, end))
+        Logging.lg.logger.debug("Historical bar data download for {} from {} to {} returned on RequestId: 1501".format(self.Ticker_Symbol, start, end))
+        #Should not be necessary as each instance of the app and prep_and_iterate class should be separate, hence request data call (from prep_and_iterate class) shold return data to the right instance of the app
+        #if regId == 1501:
+        #    Prep_and_iterating_class_1.Update_Pending_download(False)
+        #    print("Historical bar data download for {} from {} to {} returned on RequestId: 1501".format(self.Ticker_Symbol, start, end))
+        #    Logging.lg.logger.debug("Historical bar data download for {} from {} to {} returned on RequestId: 1501".format(self.Ticker_Symbol, start, end))
+        #elif regId == 1502:
+        #    Prep_and_iterating_class_2.Update_Pending_download(False)
+        #    print("Historical bar data download for {} from {} to {} returned on RequestId: 1502".format(self.Ticker_Symbol, start, end))
+        #    Logging.lg.logger.debug("Historical bar data download for {} from {} to {} returned on RequestId: 1502".format(self.Ticker_Symbol, start, end))
+        #elif regId == 1503:
+        #    Prep_and_iterating_class_3.Update_Pending_download(False)
+        #    print("Historical bar data download for {} from {} to {} returned on RequestId: 1503".format(self.Ticker_Symbol, start, end))
+        #    Logging.lg.logger.debug("Historical bar data download for {} from {} to {} returned on RequestId: 1503".format(self.Ticker_Symbol, start, end))
+        #elif regId == 1504:
+        #    Prep_and_iterating_class_4.Update_Pending_download(False)
+        #    print("Historical bar data download for {} from {} to {} returned on RequestId: 1504".format(self.Ticker_Symbol, start, end))
+        #    Logging.lg.logger.debug("Historical bar data download for {} from {} to {} returned on RequestId: 1504".format(self.Ticker_Symbol, start, end))
+        #else:
+        #    Prep_and_iterating_class_5.Update_Pending_download(False)
+        #    print("Historical bar data download for {} from {} to {} returned on RequestId: 1505".format(self.Ticker_Symbol, start, end))
+        #    Logging.lg.logger.debug("Historical bar data download for {} from {} to {} returned on RequestId: 1505".format(self.Ticker_Symbol, start, end))
+
         #Partial_download_complete.set()
     def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast,done: bool):
         #returns the requested historical tick data
@@ -143,16 +144,65 @@ class New_App (EWrapper, EClient, Write_to_File):
 
 ### This is where parameters are defined and requests are made from
 def main():
-    app = New_App()
-    
-    ### Connection
-    app.connect("127.0.0.1",7496,1111530)
-    
+    ### App_1
+    app_1 = New_App(RequestId=1501, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1)
+    # Connection
+    app_1.connect("127.0.0.1",7496,1111530)
+    # Properties:
     Not_first_time = False
+    #RequestId = 1501
+    # Thread
+    t1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Requesting data thread for app_1", args=(app_1, Not_first_time))
+    t1.daemon = True
+    t1.start()
 
-    t = threading.Thread(target=Making_Requests.Preparing_and_iterating_requests, name="Requesting Data Thread", args=(app, Not_first_time))
-    t.daemon = True
-    t.start()
+    ### App_2
+    app_2 = New_App(RequestId=1502, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_2)
+    # Connection
+    app_2.connect("127.0.0.1",7496,1111530)
+    # Properties:
+    Not_first_time = False
+    #RequestId = 1502
+    # Thread
+    t2 = threading.Thread(target=Prep_and_iterating_class_2.Preparing_and_iterating_requests, name="Requesting data thread for app_2", args=(app_2, Not_first_time))
+    t2.daemon = True
+    t2.start()
+
+    ### App_3
+    app_3 = New_App(RequestId=1503, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_3)
+    # Connection
+    app_3.connect("127.0.0.1",7496,1111530)
+    # Properties:
+    Not_first_time = False
+    #RequestId = 1503
+    # Thread
+    t3 = threading.Thread(target=Prep_and_iterating_class_3.Preparing_and_iterating_requests, name="Requesting data thread for app_3", args=(app_3, Not_first_time))
+    t3.daemon = True
+    t3.start()
+
+    ### App_4
+    app_4 = New_App(RequestId=1504, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_4)
+    # Connection
+    app_4.connect("127.0.0.1",7496,1111530)
+    # Properties:
+    Not_first_time = False
+    #RequestId = 1504
+    # Thread
+    t4 = threading.Thread(target=Prep_and_iterating_class_4.Preparing_and_iterating_requests, name="Requesting data thread for app_4", args=(app_4, Not_first_time))
+    t4.daemon = True
+    t4.start()
+
+    ### App_5
+    app_5 = New_App(RequestId=1505, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_5)
+    # Connection
+    app_5.connect("127.0.0.1",7496,1111530)
+    # Properties:
+    Not_first_time = False
+    #RequestId = 1505
+    # Thread
+    t5 = threading.Thread(target=Prep_and_iterating_class_5.Preparing_and_iterating_requests, name="Requesting data thread for app_5", args=(app_5, Not_first_time))
+    t5.daemon = True
+    t5.start()
 
     ### Parameter definitions
     #contract = Contract()
@@ -171,91 +221,13 @@ def main():
     ### Requests to TWS (using EClient)
     
     ### Requesting contract details
-    #app.reqContractDetails(1001,contract)
+    #app_1.reqContractDetails(1001,contract)
 
-    ### Requesting historical 1 second resolution data
-    #for stock in US_Stocks_Ticker_Dict.items():
-    #    # Contract
-    #    contract.symbol = stock[0]
-    #    contract.secType = "STK"
-    #    contract.exchange = "SMART"
-    #    contract.currency = "USD"
-    #    contract.primaryExchange = stock[1]
-    #    global Ticker_Symbol
-    #    Ticker_Symbol = contract.symbol
-    #    global Sec_Type_and_Currency
-    #    Sec_Type_and_Currency = contract.secType + "|" + contract.currency
-    #    # Time duration and resolution of requested seconds
-    #    time_duration = "1799 S"
-    #    time_resolution = "1 secs"
-    #    for trading_date in Trading_Dates_Reversed:
-    #        global trading_date_item
-    #        trading_date_item = trading_date.strftime("%Y%m%d")
-    #        app.Ticks_List.clear()
-    #        for end_trading_time in Trading_Date_30_minute_Intervals:
-    #            Making_Requests.Making_Requests.Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution)
-    #            app.run()
-    #            time.sleep(3)
-    #app.reqHistoricalData(1002, contract, dt.datetime(2018,8,29,10,0,0).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 2, False, [])
-    #app.reqHistoricalData(1002, contract, (dt.datetime(2018,9,4,09,30,0)-dt.timedelta(days=1270)).strftime("%Y%m%d %H:%M:%S"), "1800 S","1 secs", "TRADES", 1, 1, False, [])
-
-    ### Requesting historical tick resolution data
-    #Making_Requests.Making_Requests.Make_Ticks_Request(app, contract)
-    #app.reqHistoricalTicks(1003, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
-
-    #Historical Data Request Description:
-    #region
-    #Requests contracts' historical data. When requesting historical data, a
-    #finishing time and date is required along with a duration string. The
-    #resulting bars will be returned in EWrapper.historicalData()
-    #reqId:TickerId - The id of the request. Must be a unique value. When the
-    #    market data returns, it whatToShowill be identified by this tag. This is also
-    #    used when canceling the market data.
-    #contract:Contract - This object contains a description of the contract for which
-    #    market data is being requested.
-    #endDateTime:str - Defines a query end date and time at any point during the past 6 mos.
-    #    Valid values include any date/time within the past six months in the format:
-    #    yyyymmdd HH:mm:ss ttt
-    #    where "ttt" is the optional time zone.
-    #durationStr:str - Set the query duration up to one week, using a time unit
-    #    of seconds, days or weeks. Valid values include any integer followed by a space
-    #    and then S (seconds), D (days) or W (week). If no unit is specified, seconds is used.
-    #barSizeSetting:str - Specifies the size of the bars that will be returned (within IB/TWS listimits).
-    #    Valid values include:
-    #    1 sec
-    #    5 secs
-    #    15 secs
-    #    30 secs
-    #    1 min
-    #    2 mins
-    #    3 mins
-    #    5 mins
-    #    15 mins
-    #    30 mins
-    #    1 hour
-    #    1 day
-    #whatToShow:str - Determines the nature of data beinging extracted. Valid values include:
-    #    TRADES
-    #    MIDPOINT
-    #    BID
-    #    ASK
-    #    BID_ASK
-    #    HISTORICAL_VOLATILITY
-    #    OPTION_IMPLIED_VOLATILITY
-    #useRTH:int - Determines whether to return all data available during the requested time span,
-    #    or only data that falls within regular trading hours. Valid values include:
-    #    0 - all data is returned even where the market in question was outside of its
-    #    regular trading hours.
-    #    1 - only data within the regular trading hours is returned, even if the
-    #    requested time span falls partially or completely outside of the RTH.
-    #formatDate: int - Determines the date format applied to returned bars. validd values include:
-    #    1 - dates applying to bars returned in the format: yyyymmdd{space}{space}hh:mm:dd
-    #    2 - dates are returned as a long integer specifying the number of seconds since
-    #        1/1/1970 GMT.
-    #chartOptions:TagValueList - For internal use only. Use default value XYZ.
-    #endregion
-
-    app.run()
+    app_1.run()
+    app_2.run()
+    app_3.run()
+    app_4.run()
+    app_5.run()
 
 if __name__ == "__main__":
     main()
