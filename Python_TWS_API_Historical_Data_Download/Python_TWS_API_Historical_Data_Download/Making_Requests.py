@@ -57,7 +57,7 @@ class Prep_and_iterating_class:
         self.Pending_download:bool = None
     
     @staticmethod
-    def Make_Bar_Request(self, app, contract, trading_date, end_trading_time, time_duration, time_resolution):
+    def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):
         #global Pending_download
         app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])
     
@@ -98,13 +98,15 @@ class Prep_and_iterating_class:
                     # Sleeping to allow connection to complete
                     if Not_first_time == True:    
                         #pass
-                        time.sleep(20)
+                        time.sleep(10)
                         print("Slept for 2 secs")
                         Logging.lg.logger.debug("Slept for 2 secs")
-                        print("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date, end_trading_time, time.time() - start_time))
+                        # This conversion is for the correctness of the following print statement
+                        correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
+                        print("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
                         Logging.lg.logger.debug("Download took: {}".format(time.time() - start_time))
                     else:
-                        time.sleep(30)
+                        time.sleep(15)
                         #TODO Change to 15 seconds
                         print("Slept for 5 secs")
                         Logging.lg.logger.debug("Slept for 5 secs")

@@ -95,8 +95,8 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         #self.uf.close_File_to_Save_Bars_to()
         global trading_date_item
         #global Partial_download_complete
-        print("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
-        Logging.lg.logger.debug("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
+        #print("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
+        #Logging.lg.logger.debug("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
         Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
         EOD_time = dt.time(10,30,0)
         if Hist_data_end_time == EOD_time:
@@ -106,8 +106,8 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         
         #Prep_and_iterating_class_1.Update_Pending_download(False)
         self.Update_Pending_download(False)
-        print("Historical bar data download for {} from {} to {} returned on RequestId: 1501".format(self.Ticker_Symbol, start, end))
-        Logging.lg.logger.debug("Historical bar data download for {} from {} to {} returned on RequestId: 1501".format(self.Ticker_Symbol, start, end))
+        print("Historical bar data download for {} from {} to {} done and returned on RequestId: {}".format(self.Ticker_Symbol, start, end, reqId))
+        Logging.lg.logger.debug("Historical bar data download for {} from {} to {} done and returned on RequestId: {}".format(self.Ticker_Symbol, start, end, reqId))
         #Should not be necessary as each instance of the app and prep_and_iterate class should be separate, hence request data call (from prep_and_iterate class) shold return data to the right instance of the app
         #if regId == 1501:
         #    Prep_and_iterating_class_1.Update_Pending_download(False)
@@ -152,7 +152,7 @@ def main():
     Not_first_time = False
     #RequestId = 1501
     # Thread
-    t1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Requesting data thread for app_1", args=(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    t1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Thread for app_1", args=(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
     t1.daemon = True
     t1.start()
 
@@ -164,7 +164,7 @@ def main():
     Not_first_time = False
     #RequestId = 1502
     # Thread
-    t2 = threading.Thread(target=app_2.Preparing_and_iterating_requests, name="Requesting data thread for app_2", args=(app_2, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    t2 = threading.Thread(target=app_2.Preparing_and_iterating_requests, name="Thread for app_2", args=(app_2, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_2))
     t2.daemon = True
     t2.start()
 
@@ -176,7 +176,7 @@ def main():
     Not_first_time = False
     #RequestId = 1503
     # Thread
-    t3 = threading.Thread(target=app_3.Preparing_and_iterating_requests, name="Requesting data thread for app_3", args=(app_3, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    t3 = threading.Thread(target=app_3.Preparing_and_iterating_requests, name="Thread for app_3", args=(app_3, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_3))
     t3.daemon = True
     t3.start()
 
@@ -188,7 +188,7 @@ def main():
     Not_first_time = False
     #RequestId = 1504
     # Thread
-    t4 = threading.Thread(target=app_4.Preparing_and_iterating_requests, name="Requesting data thread for app_4", args=(app_4, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    t4 = threading.Thread(target=app_4.Preparing_and_iterating_requests, name="Thread for app_4", args=(app_4, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_4))
     t4.daemon = True
     t4.start()
 
@@ -200,7 +200,7 @@ def main():
     Not_first_time = False
     #RequestId = 1505
     # Thread
-    t5 = threading.Thread(target=app_5.Preparing_and_iterating_requests, name="Requesting data thread for app_5", args=(app_5, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    t5 = threading.Thread(target=app_5.Preparing_and_iterating_requests, name="Thread for app_5", args=(app_5, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_5))
     t5.daemon = True
     t5.start()
 

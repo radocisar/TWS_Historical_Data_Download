@@ -18,15 +18,15 @@ class Logging:
 
     def Date_Updater(self):
         while True:
-            print("Initiated infinite While loop")
+            print("Initiated infinite logging While loop")
             while Logging.Current_Date == time.strftime("%Y%m%d_%H%M", time.gmtime()):
-                print("Passing")
+                print("Passing Logging")
                 time.sleep(1)
                 pass
             Logging.Current_Date = time.strftime("%Y%m%d_%H%M", time.gmtime())
             #Logging.File_Open = False
             #self.f.close()
-            print("New File")
+            print("New logging file")
             self.File_Location = r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks_Log\{}_US_Stocks.log".format(self.Current_Date)
             self.logger.removeHandler(self.file_handler)
             self.file_handler = logging.FileHandler(self.File_Location)
