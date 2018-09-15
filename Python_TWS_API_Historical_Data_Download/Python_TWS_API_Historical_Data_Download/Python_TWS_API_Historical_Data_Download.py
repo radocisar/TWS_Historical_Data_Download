@@ -21,7 +21,7 @@ import Logging
 #Partial_download_complete = threading.Event()
 
 ###This is where the events are returned (into the EWrapper)
-class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class, Write_to_File):
+class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
     #Pending_download = False
     #uf = Utility_Functions()
     #wtf = Write_to_File()
@@ -29,7 +29,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class, Write
 
     def __init__(self, Ticks_List=None, RequestId=None):
         EClient.__init__(self,self)
-        Prep_and_iterating_class.__init__(self, Ticker_Dict)
+        Prep_and_iterating_class.__init__(self)
         Write_to_File.__init__(self)
         self.FileisnowOpen = False
         if Ticks_List is None:
@@ -145,62 +145,62 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class, Write
 ### This is where parameters are defined and requests are made from
 def main():
     ### App_1
-    app_1 = New_App(RequestId=1501, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1)
+    app_1 = New_App(RequestId=1501)
     # Connection
     app_1.connect("127.0.0.1",7496,1111530)
     # Properties:
     Not_first_time = False
     #RequestId = 1501
     # Thread
-    t1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Requesting data thread for app_1", args=(app_1, Not_first_time))
+    t1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Requesting data thread for app_1", args=(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
     t1.daemon = True
     t1.start()
 
     ### App_2
-    app_2 = New_App(RequestId=1502, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_2)
+    app_2 = New_App(RequestId=1502)
     # Connection
     app_2.connect("127.0.0.1",7496,1111530)
     # Properties:
     Not_first_time = False
     #RequestId = 1502
     # Thread
-    t2 = threading.Thread(target=Prep_and_iterating_class_2.Preparing_and_iterating_requests, name="Requesting data thread for app_2", args=(app_2, Not_first_time))
+    t2 = threading.Thread(target=app_2.Preparing_and_iterating_requests, name="Requesting data thread for app_2", args=(app_2, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
     t2.daemon = True
     t2.start()
 
     ### App_3
-    app_3 = New_App(RequestId=1503, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_3)
+    app_3 = New_App(RequestId=1503)
     # Connection
     app_3.connect("127.0.0.1",7496,1111530)
     # Properties:
     Not_first_time = False
     #RequestId = 1503
     # Thread
-    t3 = threading.Thread(target=Prep_and_iterating_class_3.Preparing_and_iterating_requests, name="Requesting data thread for app_3", args=(app_3, Not_first_time))
+    t3 = threading.Thread(target=app_3.Preparing_and_iterating_requests, name="Requesting data thread for app_3", args=(app_3, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
     t3.daemon = True
     t3.start()
 
     ### App_4
-    app_4 = New_App(RequestId=1504, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_4)
+    app_4 = New_App(RequestId=1504)
     # Connection
     app_4.connect("127.0.0.1",7496,1111530)
     # Properties:
     Not_first_time = False
     #RequestId = 1504
     # Thread
-    t4 = threading.Thread(target=Prep_and_iterating_class_4.Preparing_and_iterating_requests, name="Requesting data thread for app_4", args=(app_4, Not_first_time))
+    t4 = threading.Thread(target=app_4.Preparing_and_iterating_requests, name="Requesting data thread for app_4", args=(app_4, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
     t4.daemon = True
     t4.start()
 
     ### App_5
-    app_5 = New_App(RequestId=1505, Ticker_Dict=US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_5)
+    app_5 = New_App(RequestId=1505)
     # Connection
     app_5.connect("127.0.0.1",7496,1111530)
     # Properties:
     Not_first_time = False
     #RequestId = 1505
     # Thread
-    t5 = threading.Thread(target=Prep_and_iterating_class_5.Preparing_and_iterating_requests, name="Requesting data thread for app_5", args=(app_5, Not_first_time))
+    t5 = threading.Thread(target=app_5.Preparing_and_iterating_requests, name="Requesting data thread for app_5", args=(app_5, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
     t5.daemon = True
     t5.start()
 

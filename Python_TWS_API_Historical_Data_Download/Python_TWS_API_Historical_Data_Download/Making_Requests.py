@@ -7,7 +7,7 @@ import pandas as pd
 from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
 import time
-import Python_TWS_API_Historical_Data_Download
+#import Python_TWS_API_Historical_Data_Download
 #import logging
 import Logging
 import threading
@@ -50,10 +50,10 @@ class Prep_and_iterating_class:
     #                                    , dt.time(18,0,0), dt.time(18,30,0), dt.time(19,0,0), dt.time(19,30,0), dt.time(20,0,0), dt.time(20,30,0), dt.time(21,0,0)
     #                                    , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(24,0,0)]
 
-    def __init__(self, Ticker_Dict):
+    def __init__(self):
         self.contract = Contract()
         ### Tickers
-        self.Ticker_Dict = Ticker_Dict
+        #self.Ticker_Dict = Ticker_Dict
         self.Pending_download:bool = None
     
     @staticmethod
@@ -68,11 +68,12 @@ class Prep_and_iterating_class:
     def Update_Pending_download(self, status:bool):
         self.Pending_download = status
 
-    def Preparing_and_iterating_requests(self, app, Not_first_time):
+    def Preparing_and_iterating_requests(self, app, Not_first_time, Ticker_Dict):
         #global Partial_download_complete
         ### Contract:
         ### Requesting historical 1 second resolution data
-        print(Ticker_Dict.items(), threading.current_thread().name)
+        print(Ticker_Dict.items())
+        print(threading.current_thread().name)
         Logging.lg.logger.debug(Ticker_Dict.items())
         for stock in Ticker_Dict.items():
             # Contract
@@ -90,10 +91,10 @@ class Prep_and_iterating_class:
             # Time duration and resolution of requested seconds
             time_duration = "1800 S"
             time_resolution = "1 secs"
-            for trading_date in Trading_Dates_Reversed:
+            for trading_date in self.Trading_Dates_Reversed:
                 app.Update_trading_date_item(trading_date.strftime("%Y%m%d"))
                 app.Ticks_List.clear()
-                for end_trading_time in Trading_Date_30_minute_Intervals:
+                for end_trading_time in self.Trading_Date_30_minute_Intervals:
                     # Sleeping to allow connection to complete
                     if Not_first_time == True:    
                         #pass
