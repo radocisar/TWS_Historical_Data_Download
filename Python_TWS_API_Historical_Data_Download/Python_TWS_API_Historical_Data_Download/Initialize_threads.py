@@ -6,7 +6,7 @@ def InitializeThreadforApp_1():
     ### App_1
     app_1 = New_App(RequestId=1501)
     # Connection
-    app_1.connect("127.0.0.1",7496,1111530)
+    app_1.connect("127.0.0.1",7496,1501)
     # Properties:
     Not_first_time = False
     # Thread
@@ -20,7 +20,7 @@ def InitializeThreadforApp_2():
     ### App_2
     app_2 = New_App(RequestId=1502)
     # Connection
-    app_2.connect("127.0.0.1",7496,1111530)
+    app_2.connect("127.0.0.1",7496,1502)
     # Properties:
     Not_first_time = False
     # Thread
@@ -34,7 +34,7 @@ def InitializeThreadforApp_3():
     ### App_3
     app_3 = New_App(RequestId=1503)
     # Connection
-    app_3.connect("127.0.0.1",7496,1111530)
+    app_3.connect("127.0.0.1",7496,1503)
     # Properties:
     Not_first_time = False
     # Thread
