@@ -106,7 +106,7 @@ class Prep_and_iterating_class:
                         print("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
                         Logging.lg.logger.debug("Download took: {}".format(time.time() - start_time))
                     else:
-                        time.sleep(15)
+                        time.sleep(10)
                         #TODO Change to 15 seconds
                         print("Slept for 5 secs")
                         Logging.lg.logger.debug("Slept for 5 secs")

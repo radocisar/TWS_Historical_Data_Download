@@ -21,7 +21,7 @@ class Logging:
             print("Initiated infinite logging While loop")
             while Logging.Current_Date == time.strftime("%Y%m%d_%H%M", time.gmtime()):
                 print("Passing Logging")
-                time.sleep(1)
+                time.sleep(3)
                 pass
             Logging.Current_Date = time.strftime("%Y%m%d_%H%M", time.gmtime())
             #Logging.File_Open = False
