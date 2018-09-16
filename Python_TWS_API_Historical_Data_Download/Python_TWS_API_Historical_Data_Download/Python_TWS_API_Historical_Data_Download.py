@@ -146,50 +146,50 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
 ### This is where parameters are defined and requests are made from
 def main():
     
-    #########t1 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_1, name="Thread for app_1")
-    #########t1.daemon = True
-    #########t1.start()
-    
-    #########t2 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_2, name="Thread for app_2")
-    #########t2.daemon = True
-    #########t2.start()
-
-    #########t3 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_3, name="Thread for app_3")
-    #########t3.daemon = True
-    #########t3.start()
-
-    ### App_1
-    app_1 = New_App(RequestId=1501)
-    # Connection
-    app_1.connect("127.0.0.1",7496,1501)
-    # Properties:
-    Not_first_time = False
-    # Thread
-    t1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Thread for app_1", args=(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    t1 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_1, name="Thread for app_1")
     t1.daemon = True
     t1.start()
     
-    ### App_2
-    app_2 = New_App(RequestId=1502)
-    # Connection
-    app_2.connect("127.0.0.1",7496,1502)
-    # Properties:
-    Not_first_time = False
-    # Thread
-    t2 = threading.Thread(target=app_2.Preparing_and_iterating_requests, name="Thread for app_2", args=(app_2, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_2))
+    t2 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_2, name="Thread for app_2")
     t2.daemon = True
     t2.start()
 
-    ### App_3
-    app_3 = New_App(RequestId=1503)
-    # Connection
-    app_3.connect("127.0.0.1",7496,1503)
-    # Properties:
-    Not_first_time = False
-    # Thread
-    t3 = threading.Thread(target=app_3.Preparing_and_iterating_requests, name="Thread for app_3", args=(app_3, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_3))
+    t3 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_3, name="Thread for app_3")
     t3.daemon = True
     t3.start()
+
+    #### App_1
+    #app_1 = New_App(RequestId=1501)
+    ## Connection
+    #app_1.connect("127.0.0.1",7496,1501)
+    ## Properties:
+    #Not_first_time = False
+    ## Thread
+    ##t1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Thread for app_1", args=(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    ##t1.daemon = True
+    ##t1.start()
+    
+    #### App_2
+    #app_2 = New_App(RequestId=1502)
+    ## Connection
+    #app_2.connect("127.0.0.1",7496,1502)
+    ## Properties:
+    #Not_first_time = False
+    ## Thread
+    ##t2 = threading.Thread(target=app_2.Preparing_and_iterating_requests, name="Thread for app_2", args=(app_2, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_2))
+    ##t2.daemon = True
+    ##t2.start()
+
+    #### App_3
+    #app_3 = New_App(RequestId=1503)
+    ## Connection
+    #app_3.connect("127.0.0.1",7496,1503)
+    ## Properties:
+    #Not_first_time = False
+    # Thread
+    #t3 = threading.Thread(target=app_3.Preparing_and_iterating_requests, name="Thread for app_3", args=(app_3, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_3))
+    #t3.daemon = True
+    #t3.start()
 
     #### App_4
     #app_4 = New_App(RequestId=1504)
@@ -232,9 +232,9 @@ def main():
     ### Requesting contract details
     #app_1.reqContractDetails(1001,contract)
 
-    app_1.run()
-    app_2.run()
-    app_3.run()
+    #app_1.run()
+    #app_2.run()
+    #app_3.run()
     #app_4.run()
     #app_5.run()
 
