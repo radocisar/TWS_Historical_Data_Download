@@ -43,7 +43,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         print("Contract Details: ", reqId, contractDetails)
 
     def error(self, reqID:TickerId, errorCode:int, errorString:str):
-        print("Error: ", reqID, errorCode, errorString)
+        print("Error: {} {} {}".format(reqID, errorCode, errorString))
         Logging.lg.logger.debug("Error: {} {} {}".format(reqID, errorCode, errorString))
 
     def historicalData(self, reqId:int, bar:BarData):
@@ -52,7 +52,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
         self.count += 1
         if math.fmod(self.count,100) == 0:
-            print(self.Ticker_Symbol + "|" + str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(self.count))
+            print("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
             Logging.lg.logger.debug("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
