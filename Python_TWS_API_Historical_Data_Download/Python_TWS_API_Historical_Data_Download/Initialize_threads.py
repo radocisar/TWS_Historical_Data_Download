@@ -52,9 +52,10 @@ def InitializeThreadforApp_4():
     # Properties:
     Not_first_time = False
     # Thread
-    t4 = threading.Thread(target=app_4.Preparing_and_iterating_requests, name="Thread for app_4", args=(app_4, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_4))
-    t4.daemon = True
-    t4.start()
+    th4 = threading.Thread(target=app_4.Preparing_and_iterating_requests, name="Thread th4", args=(app_4, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_4))
+    th4.daemon = True
+    th4.start()
+    app_4.run()
 
 def InitializeThreadforApp_5():
     ### App_5
@@ -64,8 +65,8 @@ def InitializeThreadforApp_5():
     # Properties:
     Not_first_time = False
     # Thread
-    t5 = threading.Thread(target=app_5.Preparing_and_iterating_requests, name="Thread for app_5", args=(app_5, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_5))
-    t5.daemon = True
-    t5.start()
-
+    th5 = threading.Thread(target=app_5.Preparing_and_iterating_requests, name="Thread th5", args=(app_5, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_5))
+    th5.daemon = True
+    th5.start()
+    app_5.run()
 
