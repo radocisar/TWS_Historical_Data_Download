@@ -28,16 +28,16 @@ import threading
 class Prep_and_iterating_class:
 
     ### List of dates to download data for
-    start_dt="08/29/2018"
-    end_dt="08/31/2018"
+    start_dt="09/14/2018"
+    end_dt="09/15/2018"
 
     #lg.logger.debug(end_dt)
     # US_Stocks
     Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
     Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
     Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
-    Trading_Date_30_minute_Intervals = [dt.time(10,0,0), dt.time(10,30,0)]#, dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), 
-                                        #dt.time(13,30,0), dt.time(14,0,0), dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0)]
+    Trading_Date_30_minute_Intervals = [dt.time(10,0,0), dt.time(10,30,0), dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), 
+                                        dt.time(13,30,0), dt.time(14,0,0), dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0)]
     # FX
     #Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
     #Trading_Dates_Reversed = Trading_Dates.strftime("%Y%m%d").tolist()
@@ -99,8 +99,8 @@ class Prep_and_iterating_class:
                     if Not_first_time == True:    
                         #pass
                         time.sleep(10)
-                        print("Slept for 2 secs")
-                        Logging.lg.logger.debug("Slept for 2 secs")
+                        print("In between requsted intraday trading intervals sleep for 10 secs")
+                        Logging.lg.logger.debug("Slept for 10 secs")
                         # This conversion is for the correctness of the following print statement
                         correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
                         print("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
@@ -108,7 +108,7 @@ class Prep_and_iterating_class:
                     else:
                         time.sleep(10)
                         #TODO Change to 15 seconds
-                        print("Slept for 5 secs")
+                        print("{}\'s start up sleep for 5 secs".format(app))
                         Logging.lg.logger.debug("Slept for 5 secs")
                         Not_first_time = True
                     #time.sleep(15)
@@ -122,7 +122,7 @@ class Prep_and_iterating_class:
                 
                     self.Update_Pending_download(True)
                     while self.Pending_download == True:
-                            time.sleep(3)
+                            time.sleep(2.1)
 
 # For US Stocks:
 #Prep_and_iterating_class_1 = Prep_and_iterating_class(US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1)
