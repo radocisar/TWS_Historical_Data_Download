@@ -158,6 +158,14 @@ def main():
     t3.daemon = True
     t3.start()
 
+    t4 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_4, name="Thread for app_4")
+    t4.daemon = True
+    t4.start()
+
+    t5 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_5, name="Thread for app_5")
+    t5.daemon = True
+    t5.start()
+
     #### App_1
     #app_1 = New_App(RequestId=1501)
     ## Connection

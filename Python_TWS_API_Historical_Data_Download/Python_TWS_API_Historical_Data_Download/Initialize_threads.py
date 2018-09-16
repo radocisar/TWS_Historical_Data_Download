@@ -44,6 +44,7 @@ def InitializeThreadforApp_3():
     #app_3.Preparing_and_iterating_requests(app_3, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_3)
     app_3.run()
 
+def InitializeThreadforApp_4():
     ### App_4
     app_4 = New_App(RequestId=1504)
     # Connection
@@ -54,7 +55,8 @@ def InitializeThreadforApp_3():
     t4 = threading.Thread(target=app_4.Preparing_and_iterating_requests, name="Thread for app_4", args=(app_4, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_4))
     t4.daemon = True
     t4.start()
-   
+
+def InitializeThreadforApp_5():
     ### App_5
     app_5 = New_App(RequestId=1505)
     # Connection
