@@ -28,8 +28,8 @@ import threading
 class Prep_and_iterating_class:
 
     ### List of dates to download data for
-    start_dt="09/14/2018"
-    end_dt="09/15/2018"
+    start_dt="09/01/2018"
+    end_dt="09/14/2018"
 
     #lg.logger.debug(end_dt)
     # US_Stocks
