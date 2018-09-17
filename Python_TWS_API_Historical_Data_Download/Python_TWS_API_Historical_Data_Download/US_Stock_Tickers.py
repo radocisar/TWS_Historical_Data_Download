@@ -1,6 +1,17 @@
-#from enum import Enum
 
-#class US_Stock_Tickers(Enum):
+###
+# Full list of US stock tickers in dict form is available in:
+# C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\US_Stock_Tickers_Dict.txt
+#
+# List of all tickers in dict form for US_Stock_Tickers_Dict_1 are available in:
+# C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\US_Stocks_Tickers_1.txt
+#
+# List of all tickers in dict form for US_Stock_Tickers_Dict_2 are available in:
+# C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\US_Stocks_Tickers_2.txt
+#
+# List of all tickers in dict form for US_Stock_Tickers_Dict_3 are available in:
+# C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\US_Stocks_Tickers_3.txt
+
 class US_Stock_Tickers:
     #Dict of symbol:primaryExchange
     US_Stock_Tickers_Dict_1 = {"GOOG":"NASDAQ",
