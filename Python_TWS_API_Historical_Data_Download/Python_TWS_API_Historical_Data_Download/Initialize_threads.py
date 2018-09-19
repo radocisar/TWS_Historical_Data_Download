@@ -10,7 +10,7 @@ def InitializeThreadforApp_1():
     # Properties:
     Not_first_time = False
     # Thread
-    th1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Thread th1", args=(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1))
+    th1 = threading.Thread(target=app_1.Preparing_and_iterating_requests, name="Thread th1", args=(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.populate_Tickers_Dict()))
     th1.deamon = True
     th1.start()
     #app_1.Preparing_and_iterating_requests(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1)

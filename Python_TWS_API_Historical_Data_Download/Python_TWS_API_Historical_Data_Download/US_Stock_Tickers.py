@@ -15,10 +15,11 @@ import pandas as pd
 
 class US_Stock_Tickers:
 
-    US_Stock_Tickers_Dict_1 = {}
+    
 
-    def __init__():
-        self.US_Stock_Tickers_Dict_1 = populate_Tickers_Dict()
+    def __init__(self):
+        self.US_Stock_Tickers_Dict_1 = {}
+        #self.US_Stock_Tickers_Dict_1 = populate_Tickers_Dict()
 
     def populate_Tickers_Dict():
         df = pd.read_csv(r"C:\Raw_Data\Raw_1_sec_Bar_Data\Inputs\Ticker_and_Exchange_Input.txt", delimiter="|")

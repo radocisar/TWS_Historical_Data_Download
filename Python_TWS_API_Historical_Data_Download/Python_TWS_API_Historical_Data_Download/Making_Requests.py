@@ -26,9 +26,11 @@ import Download_Start_and_End_Dates
 
 class Prep_and_iterating_class:
 
+    Start_and_End_Dates = Download_Start_and_End_Dates.Download_Start_and_End_Dates()
+
     ### List of dates to download data for
-    start_dt = Download_Start_and_End_Dates.Download_Start_and_End_Dates.start_dt
-    end_dt = Download_Start_and_End_Dates.Download_Start_and_End_Dates.end_dt
+    start_dt,end_dt = Start_and_End_Dates.populate_Start_and_End_Dates()
+    #end_dt = Start_and_End_Dates.end_dt
     
     #lg.logger.debug(end_dt)
     # US_Stocks
