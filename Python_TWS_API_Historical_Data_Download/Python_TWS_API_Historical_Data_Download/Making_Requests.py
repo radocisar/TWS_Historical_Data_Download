@@ -28,9 +28,9 @@ import threading
 class Prep_and_iterating_class:
 
     ### List of dates to download data for
-    start_dt="09/01/2018"
-    end_dt="09/14/2018"
-
+    start_dt=""
+    end_dt=""
+    
     #lg.logger.debug(end_dt)
     # US_Stocks
     Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
@@ -55,7 +55,14 @@ class Prep_and_iterating_class:
         ### Tickers
         #self.Ticker_Dict = Ticker_Dict
         self.Pending_download:bool = None
-    
+        start_dt,end_dt = populate_Start_and_End_Dates()
+
+    def populate_Start_and_End_Dates():
+        dfr = pd.read_csv(r"C:\Raw_Data\Raw_1_sec_Bar_Data\Inputs\Start_and_End_Dates_Input.txt", delimiter="|")
+        start_dt = dfr["Start_Date"][0]
+        end_dt = dfr["End_Date"][0]
+        return start_dt,end_dt
+
     @staticmethod
     def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):
         #global Pending_download

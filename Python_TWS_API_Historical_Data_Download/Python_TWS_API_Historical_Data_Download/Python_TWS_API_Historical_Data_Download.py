@@ -8,7 +8,7 @@ from Utility_Functions import Write_to_File
 import pandas as pd
 from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
-import US_Stock_Tickers
+#import US_Stock_Tickers
 import FX_Tickers
 from Making_Requests import Prep_and_iterating_class
 import time
@@ -150,21 +150,23 @@ def main():
     t1.daemon = True
     t1.start()
     
-    t2 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_2, name="Thread for app_2")
-    t2.daemon = True
-    t2.start()
+    #t2 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_2, name="Thread for app_2")
+    #t2.daemon = True
+    #t2.start()
 
-    t3 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_3, name="Thread for app_3")
-    t3.daemon = True
-    t3.start()
+    #t3 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_3, name="Thread for app_3")
+    #t3.daemon = True
+    #t3.start()
 
-    t4 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_4, name="Thread for app_4")
-    t4.daemon = True
-    t4.start()
+    #t4 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_4, name="Thread for app_4")
+    #t4.daemon = True
+    #t4.start()
 
-    t5 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_5, name="Thread for app_5")
-    t5.daemon = True
-    t5.start()
+    #t5 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_5, name="Thread for app_5")
+    #t5.daemon = True
+    #t5.start()
+
+
 
     #### App_1
     #app_1 = New_App(RequestId=1501)
