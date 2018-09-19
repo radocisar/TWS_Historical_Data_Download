@@ -11,6 +11,7 @@ import time
 #import logging
 import Logging
 import threading
+import Download_Start_and_End_Dates
 
 ### Instantiate logging class
 #lg = Logging.Logging()
@@ -21,15 +22,13 @@ import threading
 #    """description of class"""
 
 
-#Pending_download = False
-
-
+#Pending_download 
 
 class Prep_and_iterating_class:
 
     ### List of dates to download data for
-    start_dt=""
-    end_dt=""
+    start_dt = Download_Start_and_End_Dates.Download_Start_and_End_Dates.start_dt
+    end_dt = Download_Start_and_End_Dates.Download_Start_and_End_Dates.end_dt
     
     #lg.logger.debug(end_dt)
     # US_Stocks
@@ -55,13 +54,6 @@ class Prep_and_iterating_class:
         ### Tickers
         #self.Ticker_Dict = Ticker_Dict
         self.Pending_download:bool = None
-        self.start_dt,self.end_dt = populate_Start_and_End_Dates()
-
-    def populate_Start_and_End_Dates():
-        dfr = pd.read_csv(r"C:\Raw_Data\Raw_1_sec_Bar_Data\Inputs\Start_and_End_Dates_Input.txt", delimiter="|")
-        start_dt = dfr["Start_Date"][0]
-        end_dt = dfr["End_Date"][0]
-        return start_dt,end_dt
 
     @staticmethod
     def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):

@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Download_Start_and_End_Dates.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Initialize_threads.py">
       <SubType>Code</SubType>
     </Compile>
