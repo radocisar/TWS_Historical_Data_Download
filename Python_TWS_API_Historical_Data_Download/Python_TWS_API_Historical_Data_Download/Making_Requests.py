@@ -55,7 +55,7 @@ class Prep_and_iterating_class:
         ### Tickers
         #self.Ticker_Dict = Ticker_Dict
         self.Pending_download:bool = None
-        start_dt,end_dt = populate_Start_and_End_Dates()
+        self.start_dt,self.end_dt = populate_Start_and_End_Dates()
 
     def populate_Start_and_End_Dates():
         dfr = pd.read_csv(r"C:\Raw_Data\Raw_1_sec_Bar_Data\Inputs\Start_and_End_Dates_Input.txt", delimiter="|")
