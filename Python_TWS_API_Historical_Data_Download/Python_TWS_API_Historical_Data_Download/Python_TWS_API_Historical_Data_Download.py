@@ -49,7 +49,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
         self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
-                               "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\n")
+                               "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\r\n")
         self.count += 1
         if math.fmod(self.count,100) == 0:
             print("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
