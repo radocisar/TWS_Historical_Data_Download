@@ -51,6 +51,8 @@ class Prep_and_iterating_class:
     #                                    , dt.time(18,0,0), dt.time(18,30,0), dt.time(19,0,0), dt.time(19,30,0), dt.time(20,0,0), dt.time(20,30,0), dt.time(21,0,0)
     #                                    , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(24,0,0)]
 
+    while_loop_counter = 0
+
     def __init__(self):
         self.contract = Contract()
         ### Tickers
@@ -122,8 +124,13 @@ class Prep_and_iterating_class:
                     #Python_TWS_API_Historical_Data_Download.Partial_download_complete.wait()
                 
                     self.Update_Pending_download(True)
+                    while_loop_counter = 0
                     while self.Pending_download == True:
-                            time.sleep(2.1)
+                        while_loop_counter += 1      
+                        time.sleep(2.1)
+                        if while_loop_counter == 30:
+                            self.Update_Pending_download(False)
+                            break
 
 # For US Stocks:
 #Prep_and_iterating_class_1 = Prep_and_iterating_class(US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1)
@@ -135,4 +142,4 @@ class Prep_and_iterating_class:
 # For FX:
 #Prep_and_iterating_class_FX = Prep_and_iterating_class(FX_Tickers.FX_Tickers.FX_Tickers_Dict)
 
-                #time.sleep(3)
+#time.sleep(3)
