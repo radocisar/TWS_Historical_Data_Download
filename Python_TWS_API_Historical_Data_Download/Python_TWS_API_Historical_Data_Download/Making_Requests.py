@@ -106,7 +106,7 @@ class Prep_and_iterating_class:
                         Logging.lg.logger.debug("In between requsted intraday trading intervals sleep for 10 secs")
                         # This conversion is for the correctness of the following print statement
                         correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
-                        print("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
+                        print("Download of {} for {} trading date and {} (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
                         Logging.lg.logger.debug("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
                     else:
                         time.sleep(8)
@@ -129,6 +129,10 @@ class Prep_and_iterating_class:
                         while_loop_counter += 1      
                         time.sleep(2.1)
                         if while_loop_counter == 30:
+                            print("While loop counter of 30 hit. Download of {} for {} trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
+                                stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S")))
+                            Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
+                                stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S")))
                             self.Update_Pending_download(False)
                             break
 
