@@ -99,15 +99,15 @@ class Prep_and_iterating_class:
                 app.Ticks_List.clear()
                 for end_trading_time in self.Trading_Date_30_minute_Intervals:
                     # Sleeping to allow connection to complete
+                    correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
                     if Not_first_time == True:    
                         #pass
                         time.sleep(10)
                         print("In between requsted intraday trading intervals sleep for 10 secs")
                         Logging.lg.logger.debug("In between requsted intraday trading intervals sleep for 10 secs")
                         # This conversion is for the correctness of the following print statement
-                        correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
-                        print("Download of {} for {} trading date and {} (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
-                        Logging.lg.logger.debug("Download of {} for {} trading date and {} time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
+                        print("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
+                        Logging.lg.logger.debug("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
                     else:
                         time.sleep(8)
                         #TODO Change to 15 seconds
@@ -129,12 +129,12 @@ class Prep_and_iterating_class:
                         while_loop_counter += 1      
                         time.sleep(2.1)
                         if while_loop_counter == 30:
-                            print("While loop counter of 30 hit. Download of {} for {} trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
+                            print("While loop counter of 30 hit. Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval failed. Skipping it.".format(
                                 stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S")))
-                            Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
+                            Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} ET trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
                                 stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S")))
                             self.Update_Pending_download(False)
-                            break
+                            #break
 
 # For US Stocks:
 #Prep_and_iterating_class_1 = Prep_and_iterating_class(US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1)
