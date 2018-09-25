@@ -98,21 +98,27 @@ class Prep_and_iterating_class:
                 app.Update_trading_date_item(trading_date.strftime("%Y%m%d"))
                 app.Ticks_List.clear()
                 for end_trading_time in self.Trading_Date_30_minute_Intervals:
-                    # Sleeping to allow connection to complete
+                    # Convert end_trading_time to show start of the 30 minute time window and convert it to UTC at the same time
                     correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
+                    correct_end_trading_time_pandas_series =  pd.to_datetime(correct_end_trading_time)
+                    correct_end_trading_time_pandas_series_ET_tz = correct_end_trading_time_pandas_series.tz_localize(tz="US/Eastern")
+                    correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series_ET_tz.tz_convert(tz="UTC")
                     if Not_first_time == True:    
                         #pass
                         time.sleep(10)
                         print("In between requsted intraday trading intervals sleep for 10 secs")
                         Logging.lg.logger.debug("In between requsted intraday trading intervals sleep for 10 secs")
                         # This conversion is for the correctness of the following print statement
-                        print("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
-                        Logging.lg.logger.debug("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S"), time.time() - start_time))
+                        print("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), 
+                                 correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
+                        Logging.lg.logger.debug("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, 
+                                 trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
                     else:
+                        # Sleeping to allow connection to complete
                         time.sleep(8)
                         #TODO Change to 15 seconds
                         print("{}\'s start up sleep for 8 secs".format(app))
-                        Logging.lg.logger.debug("{}\'s start up sleep for 8 secs")
+                        Logging.lg.logger.debug("{}\'s start up sleep for 8 secs".format(app))
                         Not_first_time = True
                     #time.sleep(15)
                     #global count
@@ -130,9 +136,9 @@ class Prep_and_iterating_class:
                         time.sleep(2.1)
                         if while_loop_counter == 30:
                             print("While loop counter of 30 hit. Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval failed. Skipping it.".format(
-                                stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S")))
+                                stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                             Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} ET trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
-                                stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time.strftime("%H:%M:%S")))
+                                stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                             self.Update_Pending_download(False)
                             #break
 
