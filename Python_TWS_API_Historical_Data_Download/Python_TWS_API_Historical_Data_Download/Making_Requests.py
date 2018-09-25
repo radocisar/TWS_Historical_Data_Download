@@ -135,6 +135,10 @@ class Prep_and_iterating_class:
                         while_loop_counter += 1      
                         time.sleep(2.1)
                         if while_loop_counter == 30:
+                            #Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
+                            EOD_time = dt.time(16,0,0)
+                            if end_trading_time == EOD_time:
+                                app.saving_Bars_to_File(app.Ticks_List, trading_date.strftime("%Y%m%d"), contract.symbol, Sec_Type_and_Currency)
                             print("While loop counter of 30 hit. Download of {} for {} trading date and {} UTC (30 minutes prior to this time) time interval failed. Skipping it.".format(
                                 stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                             Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} UTC trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(

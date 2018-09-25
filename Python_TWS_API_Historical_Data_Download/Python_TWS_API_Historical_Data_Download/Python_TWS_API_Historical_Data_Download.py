@@ -53,8 +53,8 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\r\n")
         self.count += 1
         if math.fmod(self.count,100) == 0:
-            print("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
-            Logging.lg.logger.debug("{}  | {} | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
+            print("{} | {} UTC | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
+            Logging.lg.logger.debug("{} | {} UTC | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
             #self.uf.open_File_to_Save_Ticks_to("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt")            
@@ -99,7 +99,9 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         #global Partial_download_complete
         #print("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
         #Logging.lg.logger.debug("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
-        Hist_data_end_time = dt.time(pd.to_datetime(end).hour, pd.to_datetime(end).minute, pd.to_datetime(end).second)
+        pd_start = pd.to_datetime(start)
+        pd_end = pd.to_datetime(end)
+        Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
         EOD_time = dt.time(16,0,0)
         if Hist_data_end_time == EOD_time:
             self.saving_Bars_to_File(self.Ticks_List, self.trading_date_item, self.Ticker_Symbol, self.Sec_Type_and_Currency)
@@ -108,8 +110,12 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         
         #Prep_and_iterating_class_1.Update_Pending_download(False)
         self.Update_Pending_download(False)
-        print("Historical bar data download for {} from {} to {} done and returned on RequestId: {}".format(self.Ticker_Symbol, start, end, reqId))
-        Logging.lg.logger.debug("Historical bar data download for {} from {} to {} done and returned on RequestId: {}".format(self.Ticker_Symbol, start, end, reqId))
+        pd_start_ET_tz = pd_start.tz_localize(tz="US/Eastern")
+        pd_end_ET_tz = pd_end.tz_localize(tz="US/Eastern")
+        pd_start_UTC_tz = pd_start_ET_tz.tz_convert(tz="UTC")
+        pd_end_UTC_tz = pd_end_ET_tz.tz_convert(tz="UTC")
+        print("Historical bar data download for {} from {} UTC to {} UTC done and returned on RequestId: {}".format(self.Ticker_Symbol, pd_start_UTC_tz, pd_end_UTC_tz, reqId))
+        Logging.lg.logger.debug("Historical bar data download for {} from {} UTC to {} UTC done and returned on RequestId: {}".format(self.Ticker_Symbol, pd_start_UTC_tz, pd_end_UTC_tz, reqId))
         #Should not be necessary as each instance of the app and prep_and_iterate class should be separate, hence request data call (from prep_and_iterate class) shold return data to the right instance of the app
         #if regId == 1501:
         #    Prep_and_iterating_class_1.Update_Pending_download(False)
