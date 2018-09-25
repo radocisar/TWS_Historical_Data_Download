@@ -145,7 +145,11 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
 
 ### This is where parameters are defined and requests are made from
 def main():
-    
+    global Drive
+    Drive = ""
+    def __init__(self, Drive):
+        self.Drive = Drive
+
     t1 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_1, name="Thread for app_1")
     t1.daemon = True
     t1.start()

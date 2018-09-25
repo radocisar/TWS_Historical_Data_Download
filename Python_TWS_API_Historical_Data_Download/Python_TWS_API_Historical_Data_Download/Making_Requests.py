@@ -109,9 +109,9 @@ class Prep_and_iterating_class:
                         print("In between requsted intraday trading intervals sleep for 10 secs")
                         Logging.lg.logger.debug("In between requsted intraday trading intervals sleep for 10 secs")
                         # This conversion is for the correctness of the following print statement
-                        print("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), 
+                        print("Download of {} for {} trading date and {} UTC (30 minutes prior to this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), 
                                  correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
-                        Logging.lg.logger.debug("Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval took: {}".format(stock, 
+                        Logging.lg.logger.debug("Download of {} for {} trading date and {} UTC (30 minutes prior to this time) time interval took: {}".format(stock, 
                                  trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
                     else:
                         # Sleeping to allow connection to complete
@@ -135,9 +135,9 @@ class Prep_and_iterating_class:
                         while_loop_counter += 1      
                         time.sleep(2.1)
                         if while_loop_counter == 30:
-                            print("While loop counter of 30 hit. Download of {} for {} trading date and {} ET (30 minutes prior to this time) time interval failed. Skipping it.".format(
+                            print("While loop counter of 30 hit. Download of {} for {} trading date and {} UTC (30 minutes prior to this time) time interval failed. Skipping it.".format(
                                 stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
-                            Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} ET trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
+                            Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} UTC trading date and {} (30 minutes prior to this time) time interval failed. Skipping it.".format(
                                 stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                             self.Update_Pending_download(False)
                             #break
