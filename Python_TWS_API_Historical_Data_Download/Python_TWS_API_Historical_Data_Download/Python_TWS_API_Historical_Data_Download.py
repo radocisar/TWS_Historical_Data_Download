@@ -16,6 +16,7 @@ import threading
 import math
 import Logging
 import Initialize_threads
+import Drive_to_Save_Files_to
 
 #count = 0
 
@@ -145,10 +146,8 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
 
 ### This is where parameters are defined and requests are made from
 def main():
-    global Drive
-    Drive = ""
-    def __init__(self, Drive):
-        self.Drive = Drive
+    #global Drive
+    Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function(sys.argv[1])
 
     t1 = threading.Thread(target=Initialize_threads.InitializeThreadforApp_1, name="Thread for app_1")
     t1.daemon = True

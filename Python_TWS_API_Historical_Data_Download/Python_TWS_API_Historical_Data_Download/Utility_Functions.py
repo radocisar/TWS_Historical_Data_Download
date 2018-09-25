@@ -18,20 +18,21 @@ class Write_to_File:
     def saving_Bars_to_File(Ticks_List, trading_date_item, Ticker_Symbol, Sec_Type_and_Currency):
         # For Stocks:
         if Sec_Type_and_Currency == "STK|USD":
-            Folder = r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol
+            Folder = r"{}:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function.Drive) + Ticker_Symbol
             if os.path.exists(Folder):
                 pass
             else:
                 os.makedirs(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol)
-            Raw_File = gzip.open(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol + "\\" + Ticker_Symbol + "_Bars_" + trading_date_item + ".txt.gz","wb")
+            Raw_File = gzip.open(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function.Drive) + 
+                                 Ticker_Symbol + "\\" + Ticker_Symbol + "_Bars_" + trading_date_item + ".txt.gz","wb")
             Raw_File.write(b"DateTime_UTC|Open|High|Low|Close|Volume|Count|\r\n")
             for l in Ticks_List:
                 Raw_File.write(l.encode())
             Raw_File.close
         else:
         # For FX:
-            os.makedirs(r"C:\Raw_Data\Raw_1_sec_Bar_Data\FX\\" + Ticker_Symbol)
-            Raw_File = open(r"C:\Raw_Data\Raw_1_sec_Bar_Data\FX\\" + Ticker_Symbol + "_Bars_" + trading_date_item + ".txt","w")
+            os.makedirs(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function.Drive) + Ticker_Symbol)
+            Raw_File = open(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function.Drive) + Ticker_Symbol + "_Bars_" + trading_date_item + ".txt","w")
             Raw_File.write("DateTime_UTC|Open|High|Low|Close|Volume|Count|\n")
             for l in Ticks_List:
                 Raw_File.write(l)
@@ -46,7 +47,7 @@ class Write_to_File:
     ### For Ticks
     @staticmethod
     def saving_Ticks_to_File(Ticks_List):
-        Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestTicksFile.txt","w")
+        Raw_File = open("{}:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestTicksFile.txt".format(Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function.Drive),"w")
         Raw_File.write("DateTime_UTC|Price|Size|Exchange|Condition_Code\n")
         for l in Ticks_List:
             Raw_File.write(l)
