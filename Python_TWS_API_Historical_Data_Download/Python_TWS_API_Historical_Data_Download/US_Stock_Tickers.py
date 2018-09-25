@@ -23,7 +23,7 @@ class US_Stock_Tickers:
         #self.US_Stock_Tickers_Dict_1 = populate_Tickers_Dict()
 
     def populate_Tickers_Dict():
-        df = pd.read_csv(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\Inputs\Ticker_and_Exchange_Input.txt".format(Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function.Drive), delimiter="|")
+        df = pd.read_csv(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\Inputs\Ticker_and_Exchange_Input.txt".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr), delimiter="|")
         EXCH_list = df["Exchange"].tolist()
         TICKER_list = df["Ticker"].tolist()
         dic = {TICKER_list:EXCH_list for TICKER_list,EXCH_list in zip(TICKER_list,EXCH_list)}

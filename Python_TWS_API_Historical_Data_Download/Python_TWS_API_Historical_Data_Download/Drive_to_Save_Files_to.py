@@ -1,6 +1,7 @@
 class Drive_Function_Class:
-    Drive = ""
+    Dr = ""
     @classmethod
-    def Drive_Function(cls, Drive):
-        cls.Drive = Drive
+    def Drive_Function(cls, D):
+        cls.Dr = D
+
 
