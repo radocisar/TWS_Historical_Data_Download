@@ -49,8 +49,12 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
 
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
+        print(self.Trading_date_item)
+        print(dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y/%m/%d"))
+        if self.Trading_date_item == dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y/%m/%d"):
+            self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\r\n")
+
         self.count += 1
         if math.fmod(self.count,100) == 0:
             print("{} | {} UTC | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
@@ -77,12 +81,16 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         WAP -   the bar's Weighted Average Price
         hasGaps  -indicates if the data has gaps or not."""
         #endregion
-    trading_date_item = ""
+    Trading_date_item = ""
     Ticker_Symbol = ""
     Sec_Type_and_Currency = ""
+    Current_end_trading_time = ""
+
+    def Update_current_end_trading_time(self, current_end_trading_time):
+        self.Current_end_trading_time = current_end_trading_time
 
     def Update_trading_date_item(self, trading_date_item):
-        self.trading_date_item = trading_date_item
+        self.Trading_date_item = trading_date_item
 
     def Update_Ticker_Symbol(self, Ticker_Symbol):
         self.Ticker_Symbol = Ticker_Symbol
@@ -104,7 +112,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
         EOD_time = dt.time(16,0,0)
         if Hist_data_end_time == EOD_time:
-            self.saving_Bars_to_File(self.Ticks_List, self.trading_date_item, self.Ticker_Symbol, self.Sec_Type_and_Currency)
+            self.saving_Bars_to_File(self.Ticks_List, self.Trading_date_item, self.Ticker_Symbol, self.Sec_Type_and_Currency)
         else:
             pass
         
