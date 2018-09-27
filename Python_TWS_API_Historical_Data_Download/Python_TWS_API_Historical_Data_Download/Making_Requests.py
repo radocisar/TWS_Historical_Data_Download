@@ -130,9 +130,9 @@ class Prep_and_iterating_class:
                     #count = 0
                     #Python_TWS_API_Historical_Data_Download.Partial_download_complete.clear()
                     print("Attemtping download of {} for {} trading date and {} UTC (30 minutes after this time) time interval".format(stock, trading_date.strftime("%Y%m%d"), 
-                                 correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"))
+                                                                                                                                       correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                     Logging.lg.logger.debug("Attemtping download of {} for {} trading date and {} UTC (30 minutes after this time) time interval".format(stock, trading_date.strftime("%Y%m%d"), 
-                                 correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"))
+                                                                                                                                                         correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                     
                     self.Make_Bar_Request(app, self.contract, trading_date, end_trading_time, time_duration, time_resolution)
                     #app.run()

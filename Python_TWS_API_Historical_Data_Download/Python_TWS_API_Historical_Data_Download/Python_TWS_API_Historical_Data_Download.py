@@ -17,6 +17,7 @@ import math
 import Logging
 import Initialize_threads
 import Drive_to_Save_Files_to
+import time
 
 #count = 0
 
@@ -39,6 +40,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         else:
             self.Ticks_List = Ticks_List
         self.RequestId = RequestId
+        self.prog_start_time = time.time()
 
     def contractDetails(self, reqId:int, contractDetails:ContractDetails):
         print("Contract Details: ", reqId, contractDetails)
@@ -46,10 +48,16 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
     def error(self, reqID:TickerId, errorCode:int, errorString:str):
         print("Error: {} | {} | {}".format(reqID, errorCode, errorString))
         Logging.lg.logger.debug("Error: {} | {} | {}".format(reqID, errorCode, errorString))
-        if errorCode == 2103 or errorCode == 2105 or errorCode == 1100 or errorCode == 1101 or errorCode == 1102 or errorCode == 1300 or errorCode == 2110:
+        # excluded:
+        #   errorCode == 2103 (Market data error)
+        if errorCode == 2105 or errorCode == 1100 or errorCode == 1101 or errorCode == 1102 or errorCode == 1300 or errorCode == 2110:
            self.Update_Connection_OK(False)
-        elif errorCode == 2104 or errorCode == 2106 or errorCode == 2107 or errorCode == 2108:
-            time.sleep(20)
+        # excluded:
+        #   errorCode == 2104 (Market data access restoration)
+        #   errorCode == 2108 (Market data dormant access restoration)
+        elif errorCode == 2106 or errorCode == 2107:
+            if self.prog_start_time + 60 < time.time():
+                time.sleep(20)
             self.Update_Connection_OK(True)
 
     def historicalData(self, reqId:int, bar:BarData):
