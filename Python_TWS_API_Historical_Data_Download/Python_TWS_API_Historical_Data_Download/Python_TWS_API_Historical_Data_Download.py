@@ -44,14 +44,19 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         print("Contract Details: ", reqId, contractDetails)
 
     def error(self, reqID:TickerId, errorCode:int, errorString:str):
-        print("Error: {} {} {}".format(reqID, errorCode, errorString))
-        Logging.lg.logger.debug("Error: {} {} {}".format(reqID, errorCode, errorString))
+        print("Error: {} | {} | {}".format(reqID, errorCode, errorString))
+        Logging.lg.logger.debug("Error: {} | {} | {}".format(reqID, errorCode, errorString))
+        if errorCode == 2103 or errorCode == 2105 or errorCode == 1100 or errorCode == 1101 or errorCode == 1102 or errorCode == 1300 or errorCode == 2110:
+           self.Update_Connection_OK(False)
+        elif errorCode == 2104 or errorCode == 2106 or errorCode == 2107 or errorCode == 2108:
+            time.sleep(20)
+            self.Update_Connection_OK(True)
 
     def historicalData(self, reqId:int, bar:BarData):
         #returns the requested historical data bars
-        print(self.Trading_date_item)
-        print(dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y/%m/%d"))
-        if self.Trading_date_item == dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y/%m/%d"):
+        #print(self.Trading_date_item)
+        #print(dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y%m%d"))
+        if self.Trading_date_item == dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y%m%d"):
             self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\r\n")
 

@@ -58,18 +58,22 @@ class Prep_and_iterating_class:
         ### Tickers
         #self.Ticker_Dict = Ticker_Dict
         self.Pending_download:bool = None
+        self.Connection_OK:bool = True
 
     @staticmethod
     def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):
         #global Pending_download
         app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])
-    
+        
     @staticmethod
     def Make_Ticks_Request(app, contract):
         app.reqHistoricalTicks(app.RequestId, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
 
     def Update_Pending_download(self, status:bool):
         self.Pending_download = status
+
+    def Update_Connection_OK(self, conn_status:bool):
+        self.Connection_OK = conn_status
 
     def Preparing_and_iterating_requests(self, app, Not_first_time, Ticker_Dict):
         #global Partial_download_complete
@@ -106,7 +110,7 @@ class Prep_and_iterating_class:
                     correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series_ET_tz.tz_convert(tz="UTC")
                     if Not_first_time == True:    
                         #pass
-                        time.sleep(10)
+                        time.sleep(9)
                         print("In between requsted intraday trading intervals sleep for 10 secs")
                         Logging.lg.logger.debug("In between requsted intraday trading intervals sleep for 10 secs")
                         # This conversion is for the correctness of the following print statement
@@ -125,6 +129,11 @@ class Prep_and_iterating_class:
                     #global count
                     #count = 0
                     #Python_TWS_API_Historical_Data_Download.Partial_download_complete.clear()
+                    print("Attemtping download of {} for {} trading date and {} UTC (30 minutes after this time) time interval".format(stock, trading_date.strftime("%Y%m%d"), 
+                                 correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"))
+                    Logging.lg.logger.debug("Attemtping download of {} for {} trading date and {} UTC (30 minutes after this time) time interval".format(stock, trading_date.strftime("%Y%m%d"), 
+                                 correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"))
+                    
                     self.Make_Bar_Request(app, self.contract, trading_date, end_trading_time, time_duration, time_resolution)
                     #app.run()
                     start_time = time.time()
@@ -132,7 +141,7 @@ class Prep_and_iterating_class:
                 
                     self.Update_Pending_download(True)
                     while_loop_counter = 0
-                    while self.Pending_download == True:
+                    while self.Pending_download == True or self.Connection_OK == False:
                         while_loop_counter += 1      
                         time.sleep(2.1)
                         if while_loop_counter == 30:
