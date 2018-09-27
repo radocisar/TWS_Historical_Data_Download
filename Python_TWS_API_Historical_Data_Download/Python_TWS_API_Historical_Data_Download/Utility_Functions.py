@@ -3,7 +3,7 @@ import gzip
 import Drive_to_Save_Files_to
 import sys
 
-Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function("C")#sys.argv[1])
+Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function(sys.argv[1])
 
 class Write_to_File:
     #def __init__(self):
