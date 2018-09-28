@@ -26,7 +26,7 @@ class Write_to_File:
             if os.path.exists(Folder):
                 pass
             else:
-                os.makedirs(r"C:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\" + Ticker_Symbol)
+                os.makedirs(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr) + Ticker_Symbol)
             Raw_File = gzip.open(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr) + 
                                  Ticker_Symbol + "\\" + Ticker_Symbol + "_Bars_" + trading_date_item + ".txt.gz","wb")
             Raw_File.write(b"DateTime_UTC|Open|High|Low|Close|Volume|Count|\r\n")
@@ -35,12 +35,17 @@ class Write_to_File:
             Raw_File.close
         else:
         # For FX:
-            os.makedirs(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr) + Ticker_Symbol)
-            Raw_File = open(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr) + Ticker_Symbol + "_Bars_" + trading_date_item + ".txt","w")
-            Raw_File.write("DateTime_UTC|Open|High|Low|Close|Volume|Count|\n")
+            Folder = r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr) + Ticker_Symbol
+            if os.path.exists(Folder):
+                pass
+            else:
+                os.makedirs(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr) + Ticker_Symbol)
+            Raw_File = gzip.open(r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX\\".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr) + 
+                                 Ticker_Symbol + "\\" + Ticker_Symbol + "_Bars_" + trading_date_item + ".txt.gz","wb")
+            Raw_File.write(b"DateTime_UTC|Open|High|Low|Close|Volume|Count|\r\n")
             for l in Ticks_List:
-                Raw_File.write(l)
-            Raw_File.close
+                Raw_File.write(l.encode())
+            Raw_File.close    
         #self.Raw_File.write(bar.date + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
         #print(bar.date + "|" + str(bar.open) + "|" + str(bar.high) + "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "\n")
     
