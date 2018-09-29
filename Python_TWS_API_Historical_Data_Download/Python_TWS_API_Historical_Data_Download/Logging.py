@@ -3,13 +3,14 @@ import datetime as dt
 import threading
 import time
 import Drive_to_Save_Files_to
+import Utility_Functions
 
 class Logging:
     
     Current_Date = time.strftime("%Y%m%d_%H%M", time.gmtime())
-    if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+    if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
         File_Location = r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX_Log\{}_FX.log".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr, Current_Date)
-    else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"                
+    else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"                
         File_Location = r"{}:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks_Log\{}_US_Stocks.log".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr, Current_Date)
     
 
@@ -32,10 +33,10 @@ class Logging:
             #Logging.File_Open = False
             #self.f.close()
             print("New logging file")
-            if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+            if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
                 self.File_Location = r"{}:\Raw_Data\Raw_1_sec_Bar_Data\FX_Log\{}_FX.log".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr, self.Current_Date)
-            else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"
-                self.File_Location = r"{}:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks_Log\{}_US_Stocks.log".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr, Current_Date)
+            else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
+                self.File_Location = r"{}:\Raw_Data\Raw_1_sec_Bar_Data\US_Stocks_Log\{}_US_Stocks.log".format(Drive_to_Save_Files_to.Drive_Function_Class.Dr, self.Current_Date)
             self.logger.removeHandler(self.file_handler)
             self.file_handler = logging.FileHandler(self.File_Location)
             self.file_handler.setFormatter(self.formatter)

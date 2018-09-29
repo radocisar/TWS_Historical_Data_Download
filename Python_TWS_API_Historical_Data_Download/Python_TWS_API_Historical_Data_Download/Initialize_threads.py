@@ -6,7 +6,7 @@ import Utility_Functions
 
 def InitializeThreadforApp_1():
     
-    if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+    if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
         ### App_1
         app_1 = New_App(RequestId=1502)
         # Connection
@@ -19,7 +19,7 @@ def InitializeThreadforApp_1():
         th1.start()
         #app_1.Preparing_and_iterating_requests(app_1, Not_first_time, US_Stock_Tickers.US_Stock_Tickers.US_Stock_Tickers_Dict_1)
         app_1.run()
-    elif Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK":
+    elif Utility_Functions.Instrument_Type_Class.Inst_Type == "STK":
         ### App_1
         app_1 = New_App(RequestId=1501)
         # Connection

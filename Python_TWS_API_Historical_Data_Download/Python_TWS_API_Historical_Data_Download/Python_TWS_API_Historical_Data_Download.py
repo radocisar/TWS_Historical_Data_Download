@@ -5,6 +5,7 @@ from ibapi.contract import *
 import datetime as dt
 #from Utility_Functions import Utility_Functions
 from Utility_Functions import Write_to_File
+import Utility_Functions
 import pandas as pd
 from pandas.tseries.offsets import CustomBusinessDay
 import Calendar_Class
@@ -46,8 +47,8 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         print("Contract Details: ", reqId, contractDetails)
 
     def error(self, reqID:TickerId, errorCode:int, errorString:str):
-        print("Error: {} | Request_ID: {} | {}".format(errorCode, errorString, reqID))
-        Logging.lg.logger.debug("Error: {} | Request_ID: {} | {}".format(errorCode, errorString, reqID))
+        print("Error: {} | {} | Request_ID: {} | Ticker: {} {}".format(errorCode, errorString, reqID, self.Ticker_Symbol, self.Sec_Type_and_Currency))
+        Logging.lg.logger.debug("Error: {} | {} | Request_ID: {} | Ticker: {} {}".format(errorCode, errorString, reqID, self.Ticker_Symbol, self.Sec_Type_and_Currency))
         # excluded:
         #   errorCode == 2103 (Market data error)
         if errorCode == 2105 or errorCode == 1100 or errorCode == 1101 or errorCode == 1102 or errorCode == 1300 or errorCode == 2110:
@@ -123,9 +124,9 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         pd_start = pd.to_datetime(start)
         pd_end = pd.to_datetime(end)
         Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
-        if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+        if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
             EOD_time = dt.time(24,0,0)
-        else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"                
+        else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"                
             EOD_time = dt.time(16,0,0)
         #EOD_time = dt.time(16,0,0)
         if Hist_data_end_time == EOD_time:

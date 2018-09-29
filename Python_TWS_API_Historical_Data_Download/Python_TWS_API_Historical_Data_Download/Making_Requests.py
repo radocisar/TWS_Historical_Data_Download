@@ -32,20 +32,20 @@ class Prep_and_iterating_class:
     ### List of dates to download data for
     start_dt,end_dt = Start_and_End_Dates.populate_Start_and_End_Dates()
 
-    if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+    if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
         # FX
-        Trading_Dates = pd.bdate_range(start_dt, end_dt, freq="B")
-        Trading_Dates_Reversed = Trading_Dates.strftime("%Y%m%d").tolist()
-        Trading_Dates_Reversed.reverse()
+        Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
+        Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
+        Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
         Trading_Date_30_minute_Intervals = [dt.time(0,30,0), dt.time(1,0,0), dt.time(1,30,0), dt.time(2,0,0), dt.time(2,30,0), dt.time(3,0,0), dt.time(3,30,0), 
                                             dt.time(4,0,0), dt.time(4,30,0), dt.time(5,0,0), dt.time(5,30,0), dt.time(6,0,0), dt.time(6,30,0), dt.time(7,0,0)
                                             , dt.time(7,30,0), dt.time(8,0,0), dt.time(8,30,0), dt.time(9,0,0), dt.time(9,30,0), dt.time(10,0,0), dt.time(10,30,0)
                                             , dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), dt.time(13,30,0), dt.time(14,0,0)
                                             , dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0), dt.time(16,30,0), dt.time(17,0,0), dt.time(17,30,0)
                                             , dt.time(18,0,0), dt.time(18,30,0), dt.time(19,0,0), dt.time(19,30,0), dt.time(20,0,0), dt.time(20,30,0), dt.time(21,0,0)
-                                            , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(24,0,0)]
+                                            , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(0,0,0)]
 
-    else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"
+    else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
         # US_Stocks
         Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
         Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
@@ -65,10 +65,10 @@ class Prep_and_iterating_class:
     @staticmethod
     def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):
         
-        if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+        if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
             # FX
             app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "MIDPOINT", 1, 2, False, [])
-        else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"
+        else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
             # Stocks
             app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])            
 
@@ -90,7 +90,7 @@ class Prep_and_iterating_class:
         print(threading.current_thread().name)
         Logging.lg.logger.debug(Ticker_Dict.items())
         for stock in Ticker_Dict.items():
-            if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+            if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
                 # Contract
                 self.contract.symbol = stock[0] #REF currency
                 self.contract.secType = "CASH"
@@ -98,7 +98,7 @@ class Prep_and_iterating_class:
                 self.contract.currency = stock[1] #BASE currency
                 app.Update_Ticker_Symbol("{}|{}".format(self.contract.symbol, self.contract.currency))
                 #self.contract.primaryExchange = stock[1]
-            else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"
+            else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
                 # Contract
                 self.contract.symbol = stock[0]
                 self.contract.secType = "STK"
@@ -163,9 +163,9 @@ class Prep_and_iterating_class:
                         time.sleep(2.1)
                         if while_loop_counter == 30:
                             #Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
-                            if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+                            if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
                                 EOD_time = dt.time(24,0,0)
-                            else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"                
+                            else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"                
                                 EOD_time = dt.time(16,0,0)
                             if end_trading_time == EOD_time:
                                 app.saving_Bars_to_File(app.Ticks_List, trading_date.strftime("%Y%m%d"), contract.symbol, Sec_Type_and_Currency)
