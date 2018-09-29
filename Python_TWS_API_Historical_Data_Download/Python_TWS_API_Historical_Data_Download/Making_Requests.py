@@ -110,7 +110,7 @@ class Prep_and_iterating_class:
                     correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series_ET_tz.tz_convert(tz="UTC")
                     if Not_first_time == True:    
                         #pass
-                        time.sleep(9)
+                        time.sleep(8.5)
                         print("In between requsted intraday trading intervals sleep for 10 secs")
                         Logging.lg.logger.debug("In between requsted intraday trading intervals sleep for 10 secs")
                         # This conversion is for the correctness of the following print statement
