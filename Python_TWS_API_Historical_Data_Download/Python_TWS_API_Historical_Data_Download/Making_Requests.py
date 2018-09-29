@@ -92,10 +92,10 @@ class Prep_and_iterating_class:
         for stock in Ticker_Dict.items():
             if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
                 # Contract
-                self.contract.symbol = stock[0] #REF currency
+                self.contract.symbol = stock[1][0] #REF currency
                 self.contract.secType = "CASH"
                 self.contract.exchange = "IDEALPRO"
-                self.contract.currency = stock[1] #BASE currency
+                self.contract.currency = stock[1][1] #BASE currency
                 app.Update_Ticker_Symbol("{}|{}".format(self.contract.symbol, self.contract.currency))
                 #self.contract.primaryExchange = stock[1]
             else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
@@ -128,26 +128,26 @@ class Prep_and_iterating_class:
                     if Not_first_time == True:    
                         #pass
                         time.sleep(8.5)
-                        print("In between requsted intraday trading intervals sleep for 10 secs")
+                        #print("In between requsted intraday trading intervals sleep for 10 secs")
                         Logging.lg.logger.debug("In between requsted intraday trading intervals sleep for 10 secs")
                         # This conversion is for the correctness of the following print statement
-                        print("Download of {} for {} trading date and {} UTC (30 minutes after this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), 
-                                 correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
+                        #print("Download of {} for {} trading date and {} UTC (30 minutes after this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), 
+                        #         correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
                         Logging.lg.logger.debug("Download of {} for {} trading date and {} UTC (30 minutes after to this time) time interval took: {}".format(stock, 
                                  trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
                     else:
                         # Sleeping to allow connection to complete
                         time.sleep(8)
                         #TODO Change to 15 seconds
-                        print("{}\'s start up sleep for 8 secs".format(app))
+                        #print("{}\'s start up sleep for 8 secs".format(app))
                         Logging.lg.logger.debug("{}\'s start up sleep for 8 secs".format(app))
                         Not_first_time = True
                     #time.sleep(15)
                     #global count
                     #count = 0
                     #Python_TWS_API_Historical_Data_Download.Partial_download_complete.clear()
-                    print("Attemtping download of {} for {} trading date and {} UTC (30 minutes after this time) time interval".format(stock, trading_date.strftime("%Y%m%d"), 
-                                                                                                                                       correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
+                    #print("Attemtping download of {} for {} trading date and {} UTC (30 minutes after this time) time interval".format(stock, trading_date.strftime("%Y%m%d"), 
+                    #                                                                                                                   correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                     Logging.lg.logger.debug("Attemtping download of {} for {} trading date and {} UTC (30 minutes after this time) time interval".format(stock, trading_date.strftime("%Y%m%d"), 
                                                                                                                                                          correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                     
@@ -164,13 +164,13 @@ class Prep_and_iterating_class:
                         if while_loop_counter == 30:
                             #Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
                             if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
-                                EOD_time = dt.time(24,0,0)
+                                EOD_time = dt.time(0,0,0)
                             else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"                
                                 EOD_time = dt.time(16,0,0)
                             if end_trading_time == EOD_time:
                                 app.saving_Bars_to_File(app.Ticks_List, trading_date.strftime("%Y%m%d"), contract.symbol, Sec_Type_and_Currency)
-                            print("While loop counter of 30 hit. Download of {} for {} trading date and {} UTC (30 minutes after to this time) time interval failed. Skipping it.".format(
-                                stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
+                            #print("While loop counter of 30 hit. Download of {} for {} trading date and {} UTC (30 minutes after to this time) time interval failed. Skipping it.".format(
+                            #    stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                             Logging.lg.logger.debug("While loop counter of 30 hit. Download of {} for {} UTC trading date and {} (30 minutes after to this time) time interval failed. Skipping it.".format(
                                 stock, trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S")))
                             self.Update_Pending_download(False)

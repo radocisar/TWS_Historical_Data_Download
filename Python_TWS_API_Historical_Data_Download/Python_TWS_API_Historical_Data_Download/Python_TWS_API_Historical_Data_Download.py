@@ -47,7 +47,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         print("Contract Details: ", reqId, contractDetails)
 
     def error(self, reqID:TickerId, errorCode:int, errorString:str):
-        print("Error: {} | {} | Request_ID: {} | Ticker: {} {}".format(errorCode, errorString, reqID, self.Ticker_Symbol, self.Sec_Type_and_Currency))
+        #print("Error: {} | {} | Request_ID: {} | Ticker: {} {}".format(errorCode, errorString, reqID, self.Ticker_Symbol, self.Sec_Type_and_Currency))
         Logging.lg.logger.debug("Error: {} | {} | Request_ID: {} | Ticker: {} {}".format(errorCode, errorString, reqID, self.Ticker_Symbol, self.Sec_Type_and_Currency))
         # excluded:
         #   errorCode == 2103 (Market data error)
@@ -71,7 +71,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
 
         self.count += 1
         if math.fmod(self.count,100) == 0:
-            print("{} | {} UTC | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
+            #print("{} | {} UTC | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
             Logging.lg.logger.debug("{} | {} UTC | {}".format(self.Ticker_Symbol, str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))), str(self.count)))
         #if self.FileisnowOpen == False:
             #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")
@@ -125,7 +125,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         pd_end = pd.to_datetime(end)
         Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
         if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
-            EOD_time = dt.time(24,0,0)
+            EOD_time = dt.time(0,0,0)
         else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"                
             EOD_time = dt.time(16,0,0)
         #EOD_time = dt.time(16,0,0)
@@ -140,7 +140,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         pd_end_ET_tz = pd_end.tz_localize(tz="US/Eastern")
         pd_start_UTC_tz = pd_start_ET_tz.tz_convert(tz="UTC")
         pd_end_UTC_tz = pd_end_ET_tz.tz_convert(tz="UTC")
-        print("Historical bar data download for {} from {} UTC to {} UTC done and returned on RequestId: {}".format(self.Ticker_Symbol, pd_start_UTC_tz, pd_end_UTC_tz, reqId))
+        #print("Historical bar data download for {} from {} UTC to {} UTC done and returned on RequestId: {}".format(self.Ticker_Symbol, pd_start_UTC_tz, pd_end_UTC_tz, reqId))
         Logging.lg.logger.debug("Historical bar data download for {} from {} UTC to {} UTC done and returned on RequestId: {}".format(self.Ticker_Symbol, pd_start_UTC_tz, pd_end_UTC_tz, reqId))
         #Should not be necessary as each instance of the app and prep_and_iterate class should be separate, hence request data call (from prep_and_iterate class) shold return data to the right instance of the app
         #if regId == 1501:
