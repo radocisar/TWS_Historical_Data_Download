@@ -67,7 +67,7 @@ class Prep_and_iterating_class:
         
         if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
             # FX
-            app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "MIDPOINT", 1, 2, False, [])
+            app.reqHistoricalData(app.RequestId, contract, "{} UTC".format(dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S")), time_duration, time_resolution, "MIDPOINT", 1, 2, False, [])
         else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
             # Stocks
             app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])            
@@ -96,7 +96,7 @@ class Prep_and_iterating_class:
                 self.contract.secType = "CASH"
                 self.contract.exchange = "IDEALPRO"
                 self.contract.currency = stock[1][1] #BASE currency
-                app.Update_Ticker_Symbol("{}|{}".format(self.contract.symbol, self.contract.currency))
+                app.Update_Ticker_Symbol("{}{}".format(self.contract.symbol, self.contract.currency))
                 #self.contract.primaryExchange = stock[1]
             else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
                 # Contract

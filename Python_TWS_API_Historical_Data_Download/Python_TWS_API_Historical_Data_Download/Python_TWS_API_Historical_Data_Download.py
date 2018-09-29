@@ -123,10 +123,13 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         #Logging.lg.logger.debug("Historical bar data download for {} from {} to {} done".format(self.Ticker_Symbol, start, end))
         pd_start = pd.to_datetime(start)
         pd_end = pd.to_datetime(end)
-        Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
+        pd_end_Eastern = pd_end.tz_localize(tz="US/Eastern")
+        pd_end_UTC = pd_end_Eastern.tz_convert(tz="UTC")
         if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
+            Hist_data_end_time = dt.time(pd_end_UTC.hour, pd_end_UTC.minute, pd_end_UTC.second)
             EOD_time = dt.time(0,0,0)
         else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"                
+            Hist_data_end_time = dt.time(pd_end_Eastern.hour, pd_end_Eastern.minute, pd_end_Eastern.second)
             EOD_time = dt.time(16,0,0)
         #EOD_time = dt.time(16,0,0)
         if Hist_data_end_time == EOD_time:
