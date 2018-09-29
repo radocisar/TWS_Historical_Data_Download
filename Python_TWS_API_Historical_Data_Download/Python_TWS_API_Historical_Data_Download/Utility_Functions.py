@@ -5,6 +5,16 @@ import sys
 
 Drive_to_Save_Files_to.Drive_Function_Class.Drive_Function(sys.argv[1])
 
+class Instrument_Type_Class:
+    Inst_Type = ""
+    @classmethod
+    def Inst_Type_Function(cls, T):
+        cls.Inst_Type = T
+
+Instrument_Type_Class.Inst_Type_Function(sys.argv[2])
+
+
+
 class Write_to_File:
     #def __init__(self):
        #Raw_File = open("C:\Python TWS API\Python_TWS_API_Historical_Data_Download\Python_TWS_API_Historical_Data_Download\TestFile.txt","w")

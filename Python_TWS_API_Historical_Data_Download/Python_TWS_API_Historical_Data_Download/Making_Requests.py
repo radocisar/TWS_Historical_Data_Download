@@ -12,6 +12,7 @@ import time
 import Logging
 import threading
 import Download_Start_and_End_Dates
+import Utility_Functions
 
 ### Instantiate logging class
 #lg = Logging.Logging()
@@ -30,26 +31,27 @@ class Prep_and_iterating_class:
 
     ### List of dates to download data for
     start_dt,end_dt = Start_and_End_Dates.populate_Start_and_End_Dates()
-    #end_dt = Start_and_End_Dates.end_dt
-    
-    #lg.logger.debug(end_dt)
-    # US_Stocks
-    Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
-    Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
-    Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
-    Trading_Date_30_minute_Intervals = [dt.time(10,0,0), dt.time(10,30,0), dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), 
-                                        dt.time(13,30,0), dt.time(14,0,0), dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0)]
-    # FX
-    #Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
-    #Trading_Dates_Reversed = Trading_Dates.strftime("%Y%m%d").tolist()
-    #Trading_Dates_Reversed.reverse()
-    #Trading_Date_30_minute_Intervals = [dt.time(0,30,0), dt.time(1,0,0), dt.time(1,30,0), dt.time(2,0,0), dt.time(2,30,0), dt.time(3,0,0), dt.time(3,30,0), 
-    #                                    dt.time(4,0,0), dt.time(4,30,0), dt.time(5,0,0), dt.time(5,30,0), dt.time(6,0,0), dt.time(6,30,0), dt.time(7,0,0)
-    #                                    , dt.time(7,30,0), dt.time(8,0,0), dt.time(8,30,0), dt.time(9,0,0), dt.time(9,30,0), dt.time(10,0,0), dt.time(10,30,0)
-    #                                    , dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), dt.time(13,30,0), dt.time(14,0,0)
-    #                                    , dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0), dt.time(16,30,0), dt.time(17,0,0), dt.time(17,30,0)
-    #                                    , dt.time(18,0,0), dt.time(18,30,0), dt.time(19,0,0), dt.time(19,30,0), dt.time(20,0,0), dt.time(20,30,0), dt.time(21,0,0)
-    #                                    , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(24,0,0)]
+
+    if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+        # FX
+        Trading_Dates = pd.bdate_range(start_dt, end_dt, freq="B")
+        Trading_Dates_Reversed = Trading_Dates.strftime("%Y%m%d").tolist()
+        Trading_Dates_Reversed.reverse()
+        Trading_Date_30_minute_Intervals = [dt.time(0,30,0), dt.time(1,0,0), dt.time(1,30,0), dt.time(2,0,0), dt.time(2,30,0), dt.time(3,0,0), dt.time(3,30,0), 
+                                            dt.time(4,0,0), dt.time(4,30,0), dt.time(5,0,0), dt.time(5,30,0), dt.time(6,0,0), dt.time(6,30,0), dt.time(7,0,0)
+                                            , dt.time(7,30,0), dt.time(8,0,0), dt.time(8,30,0), dt.time(9,0,0), dt.time(9,30,0), dt.time(10,0,0), dt.time(10,30,0)
+                                            , dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), dt.time(13,30,0), dt.time(14,0,0)
+                                            , dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0), dt.time(16,30,0), dt.time(17,0,0), dt.time(17,30,0)
+                                            , dt.time(18,0,0), dt.time(18,30,0), dt.time(19,0,0), dt.time(19,30,0), dt.time(20,0,0), dt.time(20,30,0), dt.time(21,0,0)
+                                            , dt.time(21,30,0), dt.time(22,0,0), dt.time(22,30,0), dt.time(23,0,0), dt.time(23,30,0), dt.time(24,0,0)]
+
+    else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"
+        # US_Stocks
+        Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
+        Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
+        Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
+        Trading_Date_30_minute_Intervals = [dt.time(10,0,0), dt.time(10,30,0), dt.time(11,0,0), dt.time(11,30,0), dt.time(12,0,0), dt.time(12,30,0), dt.time(13,0,0), 
+                                    dt.time(13,30,0), dt.time(14,0,0), dt.time(14,30,0), dt.time(15,0,0), dt.time(15,30,0), dt.time(16,0,0)]
 
     while_loop_counter = 0
 
@@ -62,9 +64,14 @@ class Prep_and_iterating_class:
 
     @staticmethod
     def Make_Bar_Request(app, contract, trading_date, end_trading_time, time_duration, time_resolution):
-        #global Pending_download
-        app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])
         
+        if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+            # FX
+            app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "MIDPOINT", 1, 2, False, [])
+        else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"
+            # Stocks
+            app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])            
+
     @staticmethod
     def Make_Ticks_Request(app, contract):
         app.reqHistoricalTicks(app.RequestId, contract,"20180829 09:30:00", "", 1000, "TRADES", 1, True, [])
@@ -83,15 +90,25 @@ class Prep_and_iterating_class:
         print(threading.current_thread().name)
         Logging.lg.logger.debug(Ticker_Dict.items())
         for stock in Ticker_Dict.items():
-            # Contract
-            self.contract.symbol = stock[0]
-            self.contract.secType = "STK"
-            self.contract.exchange = "SMART"
-            self.contract.currency = "USD"
-            self.contract.primaryExchange = stock[1]
+            if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+                # Contract
+                self.contract.symbol = stock[0] #REF currency
+                self.contract.secType = "CASH"
+                self.contract.exchange = "IDEALPRO"
+                self.contract.currency = stock[1] #BASE currency
+                app.Update_Ticker_Symbol("{}|{}".format(self.contract.symbol, self.contract.currency))
+                #self.contract.primaryExchange = stock[1]
+            else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"
+                # Contract
+                self.contract.symbol = stock[0]
+                self.contract.secType = "STK"
+                self.contract.exchange = "SMART"
+                self.contract.currency = "USD"
+                self.contract.primaryExchange = stock[1]
+                app.Update_Ticker_Symbol(self.contract.symbol)
             #global Ticker_Symbol
             #Ticker_Symbol = contract.symbol
-            app.Update_Ticker_Symbol(self.contract.symbol)
+            
             #global Sec_Type_and_Currency
             Sec_Type_and_Currency = self.contract.secType + "|" + self.contract.currency
             app.Update_Sec_Type_and_Currency(Sec_Type_and_Currency)
@@ -146,7 +163,10 @@ class Prep_and_iterating_class:
                         time.sleep(2.1)
                         if while_loop_counter == 30:
                             #Hist_data_end_time = dt.time(pd_end.hour, pd_end.minute, pd_end.second)
-                            EOD_time = dt.time(16,0,0)
+                            if Utililty_Functions.Instrument_Type_Class.Inst_Type == "FX":
+                                EOD_time = dt.time(24,0,0)
+                            else: # Utililty_Functions.Instrument_Type_Class.Inst_Type == "STK"                
+                                EOD_time = dt.time(16,0,0)
                             if end_trading_time == EOD_time:
                                 app.saving_Bars_to_File(app.Ticks_List, trading_date.strftime("%Y%m%d"), contract.symbol, Sec_Type_and_Currency)
                             print("While loop counter of 30 hit. Download of {} for {} trading date and {} UTC (30 minutes after to this time) time interval failed. Skipping it.".format(

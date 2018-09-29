@@ -16,8 +16,6 @@ import Drive_to_Save_Files_to
 
 class US_Stock_Tickers:
 
-    
-
     def __init__(self):
         self.US_Stock_Tickers_Dict_1 = {}
         #self.US_Stock_Tickers_Dict_1 = populate_Tickers_Dict()
