@@ -124,7 +124,7 @@ class Prep_and_iterating_class:
                 for end_trading_time in self.Trading_Date_30_minute_Intervals:
                     # Convert end_trading_time to show start of the 30 minute time window and convert it to UTC at the same time
                     #app.Update_current_end_trading_time(end_trading_time)
-                    correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=60)
+                    correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
                     correct_end_trading_time_pandas_series =  pd.to_datetime(correct_end_trading_time)
                     if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
                         correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series.tz_localize(tz="UTC")
