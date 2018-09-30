@@ -67,7 +67,10 @@ class Prep_and_iterating_class:
         
         if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
             # FX
-            app.reqHistoricalData(app.RequestId, contract, "{} UTC".format(dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S")), time_duration, time_resolution, "MIDPOINT", 1, 2, False, [])
+            if end_trading_time == dt.time(0,0,0):
+                app.reqHistoricalData(app.RequestId, contract, "{} UTC".format(dt.datetime.combine(trading_date + dt.timedelta(days=1), end_trading_time).strftime("%Y%m%d %H:%M:%S")), time_duration, time_resolution, "MIDPOINT", 1, 2, False, [])
+            else:
+                app.reqHistoricalData(app.RequestId, contract, "{} UTC".format(dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S")), time_duration, time_resolution, "MIDPOINT", 1, 2, False, [])
         else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
             # Stocks
             app.reqHistoricalData(app.RequestId, contract, dt.datetime.combine(trading_date, end_trading_time).strftime("%Y%m%d %H:%M:%S"), time_duration, time_resolution, "TRADES", 1, 2, False, [])            
@@ -121,10 +124,13 @@ class Prep_and_iterating_class:
                 for end_trading_time in self.Trading_Date_30_minute_Intervals:
                     # Convert end_trading_time to show start of the 30 minute time window and convert it to UTC at the same time
                     #app.Update_current_end_trading_time(end_trading_time)
-                    correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=30)
+                    correct_end_trading_time = dt.datetime.combine(dt.date(2018,9,15), end_trading_time) - dt.timedelta(minutes=60)
                     correct_end_trading_time_pandas_series =  pd.to_datetime(correct_end_trading_time)
-                    correct_end_trading_time_pandas_series_ET_tz = correct_end_trading_time_pandas_series.tz_localize(tz="US/Eastern")
-                    correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series_ET_tz.tz_convert(tz="UTC")
+                    if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
+                        correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series.tz_localize(tz="UTC")
+                    else: # Utility_Functions.Instrument_Type_Class.Inst_Type == "STK"
+                        correct_end_trading_time_pandas_series_ET_tz = correct_end_trading_time_pandas_series.tz_localize(tz="US/Eastern")
+                        correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series_ET_tz.tz_convert(tz="UTC")
                     if Not_first_time == True:    
                         #pass
                         time.sleep(8.5)

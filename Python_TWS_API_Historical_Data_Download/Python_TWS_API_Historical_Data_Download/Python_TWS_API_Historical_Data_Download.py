@@ -65,7 +65,7 @@ class New_App (EWrapper, EClient, Write_to_File, Prep_and_iterating_class):
         #returns the requested historical data bars
         #print(self.Trading_date_item)
         #print(dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y%m%d"))
-        if self.Trading_date_item == dt.datetime.fromtimestamp(int(bar.date)).strftime("%Y%m%d"):
+        if self.Trading_date_item == pd.to_datetime(int(bar.date), unit="s").tz_localize(tz="UTC").strftime("%Y%m%d"):
             self.Ticks_List.append(str(dt.datetime(1970,1,1)+dt.timedelta(seconds=int(bar.date))) + "|" + str(bar.open) + "|" + str(bar.high) + 
                                "|" + str(bar.low) + "|" + str(bar.close) + "|" + str(bar.volume) + "|" + str(bar.barCount) + "|" + "\r\n")
 
