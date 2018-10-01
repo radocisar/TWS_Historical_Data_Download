@@ -139,8 +139,9 @@ class Prep_and_iterating_class:
                         # This conversion is for the correctness of the following print statement
                         #print("Download of {} for {} trading date and {} UTC (30 minutes after this time) time interval took: {}".format(stock, trading_date.strftime("%Y%m%d"), 
                         #         correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
+                        adj_correct_end_trading_time_pandas_series_UTC_tz = correct_end_trading_time_pandas_series_UTC_tz - pd.Timedelta("30 s", units="s")
                         Logging.lg.logger.debug("Download of {} for {} trading date and {} UTC (30 minutes after to this time) time interval took: {}".format(stock, 
-                                 trading_date.strftime("%Y%m%d"), correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S") - pd.Timedelta("30 s", units="s"), time.time() - start_time))
+                                 trading_date.strftime("%Y%m%d"), adj_correct_end_trading_time_pandas_series_UTC_tz.strftime("%H:%M:%S"), time.time() - start_time))
                     else:
                         # Sleeping to allow connection to complete
                         time.sleep(8)
