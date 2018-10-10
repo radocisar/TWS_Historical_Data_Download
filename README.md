@@ -27,9 +27,9 @@
 
 ### Status of the FX download project:
 * Done:
-   * EURUSD
-   * GBPUSD
-   * EURGBP
+   * EURUSD - (2018-02-20 : 2018-09-19) - pickle saved in * Z:\Raw_1_sec_Bar_Data\FX\EURUSD\Pickle
+   * GBPUSD - (2018-02-20 : 2018-09-19) - pickle saved in * Z:\Raw_1_sec_Bar_Data\FX\GBPUSD\Pickle
+   * EURGBP - (2018-02-20 : 2018-09-19) - pickle saved in * Z:\Raw_1_sec_Bar_Data\FX\EURGBP\Pickle
 
 ### Status of the US Stocks download project:
 * RADOS-PC-EDI currently downloading [US_Stocks_Tickers_1.txt](./Python_TWS_API_Historical_Data_Download/Python_TWS_API_Historical_Data_Download/US_Stocks_Tickers_1.txt) for 08/01/2018 - 09/19/2018
