@@ -27,6 +27,6 @@ class FX_Trading_Calendar(AbstractHolidayCalendar):
         Holiday("Christmas Day", month=12, day=25, observance=next_monday), 
     ]
 
-FX_Trading_Cal = CustomBusinessDay(calendar = FX_Trading_Calendar())
+FX_Trading_Cal = CustomBusinessDay(calendar = FX_Trading_Calendar(), weekmask=" Sun Mon Tue Wed Thu Fri")
 
 

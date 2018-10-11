@@ -34,7 +34,7 @@ class Prep_and_iterating_class:
 
     if Utility_Functions.Instrument_Type_Class.Inst_Type == "FX":
         # FX
-        Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.US_Stocks_Trading_Cal)
+        Trading_Dates = pd.bdate_range(start_dt, end_dt, freq=Calendar_Class.FX_Trading_Cal)
         Trading_Dates_Reversed = pd.DatetimeIndex(reversed(Trading_Dates))
         Trading_Dates_Reversed_List = Trading_Dates_Reversed.strftime("%Y%m%d").tolist()
         Trading_Date_30_minute_Intervals = [dt.time(0,30,0), dt.time(1,0,0), dt.time(1,30,0), dt.time(2,0,0), dt.time(2,30,0), dt.time(3,0,0), dt.time(3,30,0), 
