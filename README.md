@@ -28,6 +28,7 @@
 ### Status of the FX download project:
 * Done:
    * EURUSD - (2018-02-20 : 2018-09-19) - pickle saved in * Z:\Raw_1_sec_Bar_Data\FX\EURUSD\Pickle
+   * EURUSD - (2018-09-20 : 2019-03-15) - pending
    * GBPUSD - (2018-02-20 : 2018-09-19) - pickle saved in * Z:\Raw_1_sec_Bar_Data\FX\GBPUSD\Pickle
    * EURGBP - (2018-02-20 : 2018-09-19) - pickle saved in * Z:\Raw_1_sec_Bar_Data\FX\EURGBP\Pickle
 
